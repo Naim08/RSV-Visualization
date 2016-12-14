@@ -1,4 +1,10 @@
 {% load static %}
 <script src="{% static 'rsvdemo/example.js' %}"></script>
 Hi world
+<input type="hidden" id=rsvdata value="{{rsvfile}}">
+<script>
+var rsvdata = document.getElementById("rsvdata").value;
+var json = JSON.parse(rsvdata);
+console.log(json);
+</script>
 {{rsvfile}}
