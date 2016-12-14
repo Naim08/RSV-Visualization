@@ -1,10 +1,351 @@
-{% load static %}
-<script src="{% static 'rsvdemo/example.js' %}"></script>
-Hi world
-<input type="hidden" id=rsvdata value="{{rsvfile}}">
+   <html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        {% load static %}
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static '/css/main.css' %}">
+        <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static '/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+
+        <!-- Toastr style -->
+<!--        <link href="{% static '/css/plugins/toastr/toastr.min.css" rel="stylesheet">-->
+        
+        <!-- c3 style -->
+        <link href="{% static '/css/plugins/c3/c3.min.css' %}" rel="stylesheet">
+        <link href="{% static '/css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+
+        <!-- Gritter -->
+        <link href="{% static '/js/plugins/gritter/jquery.gritter.css' %}" rel="stylesheet">
+
+        <link href="{% static '/css/animate.css' %}" rel="stylesheet">
+        <link href="{% static '/css/style.css' %}" rel="stylesheet">
+        
+        <script src="{% static '/js/plugins/d3/d3.min.js' %}"></script>
+        <script src="{% static '/js/plugins/c3/c3.min.js' %}"></script>
+        
+        
+<!--        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />-->
+          
+        
+    </head>
+    
+    <body>
+        <div id="wrapper">
+            <div id="page-wrapper" class="gray-bg">
+                <div class="row border-bottom">
+            
+                </div>
+                <div class="row  border-bottom white-bg dashboard-header" display= "inline-flex" style="padding-left: 0; padding-right: 0">
+                    <div class="col-lg-6 text-left" style="padding-left: 5px">
+                        <img src="{% static '/img/ITAS-Horizontal.png' %}" alt="ITAS Logo"  style="width:475px;">
+                        <br/>
+                        <br/>
+                        <ol class="breadcrumb">
+     
+                            <li>
+                                <strong>Analysis</strong>
+                            </li>
+                        </ol>
+                    </div>
+                    <br/>
+                    <div class="col-lg-6 text-right" style="padding-right: 5px">
+                        <button class="btn btn-lg btn-danger" href="/download?docname={{savedDocument}}"><a style="color: white; text-align: center;" href="/download?docname={{savedDocument}}"><i class="fa fa-cloud-download"></i> Download Results</a></button>
+                    </div>
+                </div>
+
+<div class="wrapper wrapper-content" style="padding-top: 0px; padding-left: 0; padding-right: 0;">
+    <div class="row">
+        <script src="../../../media/js/analysisGraphs.js"></script>
+        <link rel="stylesheet" href="../../../media/css/analysisGraphs.css">
+<!--        do not remove this script. it is needed to get data from server-->
+<!--        do not remove this script. it is needed to get data from server-->
+       
+        
+
+        <div class="col-xs-12" style="padding-left: 0; padding-right: 0;">
+                
+                
+                <ul id="tabNav" class="nav nav-tabs nav-justified">
+                    <li><a id="forecastedTab" >Forecasted Values</a></li>
+                    <li><a id="pvaTab" >Predicted vs Actual</a></li>
+                    <li><a id="residualTab" >Residual</a></li>
+                    <li><a id="sdTab" >Decomposition</a></li>
+                </ul>
+                
+                <br>
+                 
+                
+<!--Forecasted Graph-->
+                <div style="padding-top: 10px" id="forecastedContainer" class="container graphcontainer">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <div class="col-lg-6">
+                                    <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Forecasted Values</h1>
+                                    <a class="icon" data-toggle="modal" data-target="#ForecastedModal" style="display: inline-block; position: relative; z-index: 10;">
+                                        <span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span>
+                                    </a>
+                                </div>
+                    
+                            </div>
+                            <div class="ibox-content">
+
+                                    <div id="Forecasted"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ForecastedModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 style="text-align: center;">Forecasted Values</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>The Forecasted Values graph plots the actual values in the dataset, followed by the forcasted values predicted by the model.</p>
+                                </br>
+                                <p>The number of future time-units modeled is determined by the Forecast Horizon field on the Model Details form.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+<!--     PvA Graph           -->
+                <div style="padding-top: 10px; display: none;" id="pvaContainer" class="container graphcontainer">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <div class="col-lg-6">
+                                    <h1 style="text-align:center; margin-top: 0px; display: inline-block"><span class="headername"></span>Predicted vs. Actual</h1>
+                                    <a data-toggle="modal" data-target="#PvAModal" style="display: inline-block; position: relative; z-index: 10;"><span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span></a>
+                                </div>
+                                
+                            </div>
+                            <div class="ibox-content">
+
+                                    <div id="PvA"></div>
+                                    <div>
+                                        <h2 style="display: inline-block;" id="MAPE"></h2>
+                                        <a data-toggle="modal" data-target="#MAPEModal"><span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1em; top: -10px"></span></a>
+                                       
+                                        <h2 style="display: inline-block; padding-left: 10px;"> Model Type: <span id="modelType"></span></h2>
+                                        <a data-toggle="modal" data-target="#ModelTypeModal"><span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1em; top: -10px"></span></a>
+                                        
+                                        <h2 style="display: inline-block; padding-left: 10px; float:right;" id="outliersRemoved"></h2>
+                                        
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="MAPEModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 style="text-align: center;">MAPE</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>The MAPE (Mean Absolute Percent Error) is a measure of accuracy for a model.</p>
+                                <br/>
+                                <img src="../../../media/img/MAPE.jpg" style="width: 60%; display: block; margin: 0 auto;"/>
+                                <br/>
+                                <p>Error measurement statistics play a critical role in tracking forecast accuracy, monitoring for exceptions, and benchmarking forecasting processes. MAPE assists in the interpretation of statistics, particularly when working with low-volume data or trying to assess accuracy across multiple series.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="PvAModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 style="text-align: center;">Predicted vs. Actual</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>The Predicted vs. Actual graph plots predicted values with actual values.</p>
+                                </br>
+                                <p>This demonstrates how well the model fits the series.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ModelTypeModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 style="text-align: center;">Model Type</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>The model with the lowest SSE (Sum Squared Error) has been selected for this forecast. The possible model types are as follows:</p>
+                                <br/>
+                                <p>Exponential Smoothing:</p>
+                                <p>The exponential smoothing model assigns exponentially decreasing weights as the observation get older. In other words, recent observations are given relatively more weight in forecasting than the older observations. This model type incorporates one or more smoothing parameters like level shift, trend, and seasonality.</p>
+                                <br/>
+                                <p>ARIMA:</p>
+                                <p>The ARIMA (Auto Regressive Integrated Moving Average) model is a forecasting technique that projects the future values of a series based entirely on its own inertia. ARIMA is widely used in short term forecasting.</p>        
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--Residual Graph-->
+                
+                <div style="padding-top: 10px; display: none;" id="residualContainer" class="container graphcontainer">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <div class="col-lg-6">
+                                    <h1 style="text-align: center; margin-top: 0px; display: inline-block"><span class="headername"></span>Residual Plot</h1>
+                                    <a data-toggle="modal" data-target="#ResidualModal" style="display: inline-block; position: relative; z-index: 10;"><span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span></a>
+                                </div>
+                                
+                            </div>
+                            <div class="ibox-content">
+
+                                    <div id="Residual"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ResidualModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 style="text-align:center;">Residual Plot</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>The Residual Plot consists of bars that represent the normalized difference between the actual and the predicted values. It can be used to show outliers adn trend in a time series.</p>
+                                <br/>
+                                <p>The two lines on either side of the x-axis show the distance one and two standard deviations away from the mean. Because the graph is normalized (the mean is equal to 0), these lines have the following y-values: -2, -1, 1, 2.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            
+<!--Seasonal Decomposition Graphs-->
+                
+                <div style="padding-top: 10px; display: none;" id="sdContainer" class="container graphcontainer">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <div class="col-lg-6">
+                                    <h1 style="text-align: center; margin-top: 0px; display: inline-block"><span class="headername"></span>Decomposition Dashboard</h1>
+                                    <a data-toggle="modal" data-target="#DecompositionModal" style="display: inline-block; position: relative; z-index: 10;"><span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span></a>
+                                </div>
+                               
+                            </div>
+                            <div class="ibox-content">
+
+                                        <div class="container" style="display: inline-flex; width: 100%;">
+                                            <div id="SDActual" style="height: 22%; width: 50%;"></div>
+                                            <div id="SDTrend" style="height: 22%; width: 50%;"></div>
+                                        </div>
+                                        <div class="container" style="display: inline-flex; width: 100%;">
+                                            <div id="SDSeasonal" style="height: 22%; width: 50%;"></div>
+                                            <div id="SDResidual" style="height: 22%; width: 50%;"></div>
+                                        </div>
+                                        <div id="SDCOMBO"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="DecompositionModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 style="text-align: center;">Decomposition</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p>Decomposition is a statistical methodology that deconstructs a time series into several components. The method is used in time series analysis to describe trending and seasonal factors:</p>
+                                <br/>
+                                <ul>
+                                    <li>
+                                        <p>The trend component reflects the long-term progression of the series. A trend exists when there is an increasing or decreasing direction in the data. The trend component does not have to be linear.</p>
+                                    </li>
+                                    <br/>
+                                    <li>
+                                        <p>The seasonal component reflects seasonality (seasonal variation). A seasonal pattern exists when a time series is influenced by seasonal factors. Seasonality is always of a fixed and known period (e.g., the quarter of the year, the month, or day of the week).</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+        <input type="hidden" id=rsvdata value="{{rsvfile}}">
 <script>
 var rsvdata = document.getElementById("rsvdata").value;
 var json = JSON.parse(rsvdata);
 console.log(json);
 </script>
-{{rsvfile}}
+        <script src="{% static '/js/jquery-2.1.1.js' %}"></script>
+        <script src="{% static '/js/bootstrap.min.js' %}"></script>
+        <script src="{% static '/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+        <script src="{% static '/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+         <!-- jQuery File Upload Dependencies -->
+        <script src="{% static '/js/jquery.knob.js' %}"></script>
+        <script src="{% static '/js/jquery.ui.widget.js' %}"></script>
+        <script src="{% static '/js/jquery.iframe-transport.js' %}"></script>
+        <script src="{% static '/js/jquery.fileupload.js' %}"></script>
+
+        <!-- Peity -->
+        <script src="{% static '/js/plugins/peity/jquery.peity.min.js' %}"></script>
+        <script src="{% static '/js/demo/peity-demo.js' %}"></script>
+
+        <!-- Custom and plugin javascript -->
+        <script src="{% static '/js/inspinia.js' %}"></script>
+        <script src="{% static '/js/plugins/pace/pace.min.js' %}"></script>
+
+        <!-- jQuery UI -->
+        <script src="{% static '/js/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+
+        <!-- GITTER -->
+        <script src="{% static '/js/plugins/gritter/jquery.gritter.min.js' %}"></script>
+
+        <!-- Sparkline -->
+        <script src="{% static '/js/plugins/sparkline/jquery.sparkline.min.js' %}"></script>
+
+        <!-- Sparkline demo data  -->
+        <script src="{% static '/js/demo/sparkline-demo.js' %}"></script>
+
+        <!-- ChartJS-->
+        <script src="{% static '/js/plugins/chartJs/Chart.min.js' %}"></script>
+
+       <script src="{% static '/js/jquery.fileupload.js' %}"></script>
+        <!--    <script src="{% static '/js/plugins/toastr/toastr.min.js"></script>-->
+        <script src="{% static '/js/script.js' %}"></script>
+        <script src="{% static '/js/plugins/ladda/spin.min.js' %}"></script>
+        <script src="{% static '/js/plugins/ladda/ladda.min.js' %}"></script>
+        <script src="{% static '/js/plugins/ladda/ladda.jquery.min.js' %}"></script>
+         <!-- iCheck -->
+        <script src="{% static '/js/plugins/iCheck/icheck.min.js' %}"></script>
+
+
+        <!--    SWITCH!!!!!!!!!!!!!! -->
+      
+    </body>
+</html>

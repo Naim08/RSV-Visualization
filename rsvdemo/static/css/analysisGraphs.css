@@ -1,0 +1,31 @@
+.c3-region.test-Forecasted {
+    fill: #fffff ;
+}
+
+.c3-region.test-PvA {
+    fill: #fffff ;
+}
+
+.c3-ygrid-line line {
+    stroke: black;
+}
+.dashedLine line{
+    stroke: green;
+    stroke-dasharray: 5 5;
+}
+
+.activeTab{
+    color: #ffffff !important; /* the important is needed here to override some other css */
+    background-color: #29AFDF;
+}
+
+.container {
+    margin: 0 auto;
+    width: 100%;
+}
+
+/*
+.sdContainer > * {
+    display: inline-block;
+}*/
+
