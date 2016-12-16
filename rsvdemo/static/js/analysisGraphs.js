@@ -101,6 +101,35 @@ master = makeJSON(data)
 console.log(master)
 
 
+function getUniqueIDsFromFilter(filter) {
+    d = []
+    
+    for (var i = 0; i < filter.length; i++) {
+        d.push(filter[i]['Subject ID'])
+    }
+    
+    return d.unique()
+}
+
+function getUniqueSymptomsFromFilter(filter) {
+    d = []
+    
+    for (var i = 0; i < filter.length; i++) {
+        d.push(filter[i]['Question Text'])
+    }
+    
+    return d.unique()
+}
+
+function getUniqueDatesFromFilter(filter) {
+     d = []
+    
+    for (var i = 0; i < filter.length; i++) {
+        d.push(filter[i]['When'])
+    }
+    
+    return d.unique()
+}
 function filter(master, whatToFilter, inputID) {
     var results = []
     
@@ -112,8 +141,17 @@ function filter(master, whatToFilter, inputID) {
     
     return results
 }
-
-
+function filterByDate(startdate, enddate, filter) {
+    var results = []
+	for(var i = 0; i < filter.length; i++){
+	    if(filter[i]['When'] >= startdate && filter[i]['When'] <= enddate) {
+		results.push(filter[i]);
+	    }
+	
+	}
+	return results;
+    
+}
 
 function countDistWhen(rows) {
     d = {}
@@ -128,10 +166,11 @@ function countDistWhen(rows) {
 
 function getAppAccessData(master, uniqueIDs) {
     counts = []
-    for (id in uniqueIDs) {
-        rows = filter(master, "Subject ID", id)
+    uniqueIDs = getUniqueIDsFromFilter(master)
+    
+    for (var i = 0; i < uniqueIDs.length; i++) {
+        rows = filter(master, "Subject ID", uniqueIDs[i])
         count = countDistWhen(rows)
-        
         counts.push(count)
     }
     
@@ -143,6 +182,46 @@ function getAppAccessData(master, uniqueIDs) {
 }
 
 
+function getSymptomFrequencyData(master, symptom) {
+    symptomFilter = filter(master, "Question Text", symptom)
+    
+    uniqueDates = getUniqueDatesFromFilter(symptomFilter)
+    
+    for (var i = 0; i < uniqueDates.length; i++) {
+        rows = filter(symptomFilter, "When", uniqueDates[i])
+        count = countDistWhen(rows)
+        counts.push(count)
+    }
+    results = []
+    results[0] = uniqueDates
+    results[1] = counts
+    
+    return results
+}
+
+function countDistWhen(rows) {
+    d = {}
+    
+    for (var i = 0; i < rows.length; i++) {
+        d[rows[i]['When']] = 0
+    }
+    
+    return Object.keys(d).length
+}
+
+function countDistResponse(rows) {
+    d = {}
+
+    for (var i = 0; i < rows.length; i++) {
+        if(d.hasOwnProperty(rows[i]['Response ID']) == false)
+	    d[rows[i]['Response ID']] = 1
+	    else {
+		d[rows[i]['Response ID']] = d[rows[i]['Response ID']] + 1
+	    }
+    }
+
+        return d
+}
 
 
 function changeTab(element, graphContainer) {
@@ -163,7 +242,7 @@ function changeTab(element, graphContainer) {
     //make the selected <a> tag look selected
     element.setAttribute("class", "activeTab")
     
-    containers = [document.getElementById("appAccessContainer"), document.getElementById("userSympFreqContainer"), document.getElementById("userSympMapContainer"), document.getElementById("sympResponseContainer")]
+    containers = [document.getElementById("appAccessContainer"), document.getElementById("sympFreqContainer"), document.getElementById("userSympMapContainer"), document.getElementById("sympResponseContainer")]
     //hide all graphs
     for(var i = 0; i < containers.length; i++) {
         containers[i].style.display = "none"
@@ -177,19 +256,28 @@ function changeTab(element, graphContainer) {
 }
 
 
-function test(subjectIDUnique,  when) {
+function test() {
     console.log("test")
+    
+    appAccessData = getAppAccessData(master)
+    
+    appAccessData[1].unshift("Count")
+    
+    userIds = appAccessData[0]
+    counts = appAccessData[1]
+    
     var chart = c3.generate({
         bindto: '#chart1',
         data: {
             //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
             columns: [
-                subjectID
+                counts
             ],
             colors: {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
-            }
+            },
+            type: 'bar'
         },
         subchart: {
             show: true
@@ -197,7 +285,7 @@ function test(subjectIDUnique,  when) {
         axis: {
             x: {
                 type: 'categories',
-                categories: when,
+                categories: userIds,
                 tick: {
                     multiline: false,
                     culling: {
@@ -205,15 +293,15 @@ function test(subjectIDUnique,  when) {
                     }
                 },
                 label: {
-                    text: 'Time Series',
+                    text: 'User ID',
                     position: 'outer-center'
                 }
             },
             y: {
                 type: 'categories',
-                categories: subjectIDUnique,
+                categories: counts,
                 label: {
-                    text: "SubjectID",
+                    text: "Count",
                     position: 'outer-middle'
 
                 }
@@ -234,12 +322,18 @@ function test(subjectIDUnique,  when) {
 
 function test2(subjectIDUnique, whenUnique) {
     console.log("test2")
+    
+    symptomFrequencyData = getSymptomFrequencyData(master, "NO_SYMPTOMS_LOGGED")
+    
+    when = symptomFrequencyData[0]
+    counts = symptomFrequencyData[1]
+    
     var chart = c3.generate({
         bindto: '#chart2',
         data: {
             //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
             columns: [
-                whenUnique
+                counts
             ],
             colors: {
                 Actual: "#29AFDF",
@@ -252,7 +346,7 @@ function test2(subjectIDUnique, whenUnique) {
         axis: {
             x: {
                 type: 'categories',
-                categories: subjectIDUnique,
+                categories: when,
                 tick: {
                     multiline: false,
                     culling: {
@@ -260,7 +354,7 @@ function test2(subjectIDUnique, whenUnique) {
                     }
                 },
                 label: {
-                text: 'Time Series',
+                text: 'Date',
                 position: 'outer-center'
                 }
             },

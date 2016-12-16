@@ -82,7 +82,7 @@
 
                         <ul id="tabNav" class="nav nav-tabs nav-justified">
                             <li><a id="appAccessTab" class="activeTab" onclick="changeTab(this, appAccessContainer)">Application Access Frequency</a></li>
-                            <li><a id="userSympFreqTab" onclick="changeTab(this, userSympFreqContainer)">User Symptom Frequency</a></li>
+                            <li><a id="sympFreqTab" onclick="changeTab(this, sympFreqContainer)">User Symptom Frequency</a></li>
                             <li><a id="userSympMapTab" onclick="changeTab(this, userSympMapContainer)">Symptom User Map</a></li>
                             <li><a id="sympResponseTab" onclick="changeTab(this, sympResponseContainer)">Symptom Response Frequency</a></li>
                         </ul>
@@ -102,23 +102,7 @@
                                         </div>
                                         
                                         
-                                        <div class="col-lg-6">
-                                            <div class="ibox-tools">
-                                                <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
-                                                    <button class="btn btn-sm btn-danger" data-placement="top">Select Symptom</button>
-                                                </a>
-                                                <ul class="dropdown-menu">
-                                                    
-                                                    <li class="dropdown-item" href="#"><a><input type="checkbox" name="my-checkbox" id="load1" checked>Feeding</a></li>
-                                                    <li class="dropdown-item" href="#"><a>Dehydration</a></li>
-                                                    <li class="dropdown-item" href="#"><a>Breathing Difficulties</a></li>
-                                                    <li class="dropdown-item" href="#"><a>Runny Nose</a></li>
-                                                    <li class="dropdown-item" href="#"><a>Cough</a></li>
-                                                    <li class="dropdown-item" href="#"><a>Respiratory Noise</a></li>
-                                                    <li class="dropdown-item" href="#"><a>No Symptom Logged</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>                                       
+                                                                       
                                     </div>
                                 </div>
                                     
@@ -130,9 +114,9 @@
                                 </div>
                             </div>
                         </div>
-                </div>
-
-                    <div style="padding-top: 10px; display: none" id="userSympFreqContainer" class="container">
+                    </div>
+                    
+                    <div style="padding-top: 10px; display: none" id="sympFreqContainer" class="container">
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-title">
@@ -142,6 +126,44 @@
                                                 <span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span>
                                             </a>
                                         </div>
+                                        
+                                        <div class="col-lg-1">
+                                            <div class="ibox-tools">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+                                                    <button class="btn btn-sm btn-danger" data-placement="top">Select Symptom</button>
+                                                </a>
+                                                <ul class="dropdown-menu" id="symptomDD">
+                                                    
+                                                    <li class="dropdown-item" href="#"><a>Feeding Issues</a></li>
+                                                    <li class="dropdown-item" href="#"><a>Dehydration</a></li>
+                                                    <li class="dropdown-item" href="#"><a>Difficulty Breathing </a></li>
+                                                    <li class="dropdown-item" href="#"><a>Runny Nose</a></li>
+                                                    <li class="dropdown-item" href="#"><a>Coughing</a></li>
+                                                    <li class="dropdown-item" href="#"><a>Respiratory Noise</a></li>
+                                                    <li class="dropdown-item" href="#"><a>Medical Intervention</a></li>
+                                                    <li class="dropdown-item" href="#"><a>No Symptoms Logged</a></li>
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>   
+                                        
+                                        
+                                        <div class="col-lg-1">
+                                            <div class="row">
+                                                <h4 style="float: left; padding-right: 15px">Subject ID: </h4>
+                                                <div class="input-group">
+                                                  <span class="input-group-btn"> 
+                                                  <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-1">
+                                            <div class="input-group">
+                                              <button class="btn btn-sm btn-danger" data-placement="top">Apply Filters</button>
+                                            </div>
+                                        </div>
+                                        
 
                                     </div>
                                     <div class="ibox-content" display="inline-block">
@@ -154,7 +176,7 @@
                             </div>
                         </div>
                     
-                    <div style="padding-top: 10px; display: none" id="userSympMapContainer" class="container">
+                        <div style="padding-top: 10px; display: none" id="userSympMapContainer" class="container">
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-title">
