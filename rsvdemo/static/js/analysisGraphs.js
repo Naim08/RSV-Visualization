@@ -122,7 +122,18 @@ function filter(master, whatToFilter, inputID) {
     
     return results
 }
+function filterByDate(startdate, enddate, filter) {
+    var results = []
+	for(var i = 0; i < filter.length; i++){
+	    if(filter[i]['When'] >= startdate && filter[i]['When'] <= enddate) {
+		results.push(filter[i]);
+	    }
+	
+	}
+	return results;
+    
 
+}
 function getAppAccessData(master) {
     counts = []
     uniqueIDs = getUniqueIDsFromFilter(master)
