@@ -115,10 +115,9 @@ function filter(master, whatToFilter, inputID) {
 
 function getAppAccessData(master, uniqueIDs) {
     counts = []
-    for (id in uniqueIDs) {
-        rows = filter(master, "Subject ID", id)
+    for (var i = 0; i < uniqueIDs.length; i++) {
+        rows = filter(master, "Subject ID", uniqueIDs[i])
         count = countDistWhen(rows)
-        
         counts.push(count)
     }
     
