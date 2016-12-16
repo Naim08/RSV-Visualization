@@ -3,6 +3,33 @@
 
 var charts = []
 
+function makeJSON(data) {
+    obs = []
+    
+    
+    for (i = 1; i < data['Platform'].length; i++) {
+        o = {}
+        
+        o['App Version'] = data['App Version'][i]
+        o['Platform'] = data['Platform'][i]
+        o['Question ID'] = data['Question ID'][i]
+        o['Question Text'] = data['Question Text'][i]
+        o['Response ID'] = data['Response ID'][i]
+        o['Response Text'] = data['Response Text'][i]
+        o['Site ID'] = data['Site ID'][i]
+        o['Subject ID'] = data['Subject ID'][i]
+        o['Therm'] = data['Therm'][i]
+        o['When'] = data['When'][i] 
+        
+        obs.push(o)
+    }
+    
+    return obs
+}
+
+master = makeJSON(data)
+console.log(master)
+
 function changeTab(element, graphContainer) {
     //grab the navbar from the dom
     tabNav = document.getElementById("tabNav")
