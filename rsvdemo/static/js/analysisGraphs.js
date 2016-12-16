@@ -113,6 +113,19 @@ function filter(master, whatToFilter, inputID) {
     return results
 }
 
+
+
+function countDistWhen(rows) {
+    d = {}
+    
+    for (var i = 0; i < rows.length; i++) {
+        d[rows[i]['When']] = 0
+    }
+    
+    return Object.keys(d).length
+}
+
+
 function getAppAccessData(master, uniqueIDs) {
     counts = []
     for (id in uniqueIDs) {
@@ -128,18 +141,6 @@ function getAppAccessData(master, uniqueIDs) {
     
     return results
 }
-
-function countDistWhen(rows) {
-    d = {}
-    
-    for (var i = 0; i < rows.length; i++) {
-        d[rows[i]['When']] = 0
-    }
-    
-    return Object.keys(d).length
-}
-
-
 
 
 

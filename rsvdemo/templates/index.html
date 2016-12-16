@@ -40,21 +40,20 @@
                         </div>
 
                         <div class="row  border-bottom white-bg dashboard-header" display= "inline-flex" style="padding-left: 0; padding-right: 0">
-                            <div class="col-lg-6 text-left" style="padding-left: 5px">
-                                <img src="{% static '/img/ITAS-Horizontal.png' %}" alt="ITAS Logo"  style="width:475px;">
+                            <div class="col-lg-3 text-left" style="padding-left: 5px">
+                                <img src="{% static '/img/janssen-logo.png' %}" alt="ITAS Logo"  style="width:200px;">
                                 
                                 <br/>
                                 <br/>
-                                <ol class="breadcrumb">
-
-                                    <li>
-                                        <strong>Analysis</strong>
-                                    </li>
-                                    
-                                </ol>
+                                
                             </div>
-                            <br/>
-                            <div class="col-lg-6 text-right" style="padding-right: 5px">
+                            
+                            <div class="col-lg-6 text-right" style="text-align: center">
+                                <h1> RSV Watch Data Visualization</h1>
+                            </div>
+                            
+                            
+                            <div class="col-lg-3 text-right" style="padding-right: 5px">
                                 <button class="btn btn-lg btn-danger" href="/download?docname={{savedDocument}}"><a style="color: white; text-align: center;" href="/download?docname={{savedDocument}}"><i class="fa fa-cloud-download"></i> Download Results</a></button>
                             </div>
                         </div>
@@ -101,18 +100,38 @@
                                                 <span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span>
                                             </a>
                                         </div>
-
+                                        
+                                        
+                                        <div class="col-lg-6">
+                                            <div class="ibox-tools">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+                                                    <button class="btn btn-sm btn-danger" data-placement="top">Select Symptom</button>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    
+                                                    <li class="dropdown-item" href="#"><a><input type="checkbox" name="my-checkbox" id="load1" checked>Feeding</a></li>
+                                                    <li class="dropdown-item" href="#"><a>Dehydration</a></li>
+                                                    <li class="dropdown-item" href="#"><a>Breathing Difficulties</a></li>
+                                                    <li class="dropdown-item" href="#"><a>Runny Nose</a></li>
+                                                    <li class="dropdown-item" href="#"><a>Cough</a></li>
+                                                    <li class="dropdown-item" href="#"><a>Respiratory Noise</a></li>
+                                                    <li class="dropdown-item" href="#"><a>No Symptom Logged</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>                                       
                                     </div>
-                                    <div class="ibox-content" display="inline-block">
+                                </div>
+                                    
+                                <div class="ibox-content" display="inline-block">
 
-                                            
-                                            <div id="chart1"></div>
 
-                                    </div>
+                                        <div id="chart1"></div>
+
                                 </div>
                             </div>
                         </div>
-                    
+                </div>
+
                     <div style="padding-top: 10px; display: none" id="userSympFreqContainer" class="container">
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins">
