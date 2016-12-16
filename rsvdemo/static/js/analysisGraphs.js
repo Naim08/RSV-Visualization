@@ -197,6 +197,20 @@ function countDistWhen(rows) {
     return Object.keys(d).length
 }
 
+function countDistResponse(rows) {
+    d = {}
+
+    for (var i = 0; i < rows.length; i++) {
+        if(d.hasOwnProperty(rows[i]['Response ID']) == false)
+	    d[rows[i]['Response ID']] = 1
+	    else {
+		d[rows[i]['Response ID']] = d[rows[i]['Response ID']] + 1
+	    }
+    }
+
+        return d
+    }
+
 function changeTab(element, graphContainer) {
     //grab the navbar from the dom
     tabNav = document.getElementById("tabNav")
