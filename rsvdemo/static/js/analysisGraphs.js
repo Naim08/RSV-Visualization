@@ -19,7 +19,7 @@ function makeJSON(data) {
         o['Site ID'] = data['Site ID'][i]
         o['Subject ID'] = data['Subject ID'][i]
         o['Therm'] = data['Therm'][i]
-        o['When'] = data['When'][i] 
+        o['When'] = new Date(data['When'][i]) 
         
         obs.push(o)
     }
