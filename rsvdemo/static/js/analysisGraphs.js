@@ -208,19 +208,28 @@ function changeTab(element, graphContainer) {
 }
 
 
-function test(subjectIDUnique,  when) {
+function test() {
     console.log("test")
+    
+    appAccessData = getAppAccessData(master)
+    
+    appAccessData[1].unshift("Count")
+    
+    userIds = appAccessData[0]
+    counts = appAccessData[1]
+    
     var chart = c3.generate({
         bindto: '#chart1',
         data: {
             //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
             columns: [
-                subjectID
+                counts
             ],
             colors: {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
-            }
+            },
+            type: 'bar'
         },
         subchart: {
             show: true
@@ -228,7 +237,7 @@ function test(subjectIDUnique,  when) {
         axis: {
             x: {
                 type: 'categories',
-                categories: when,
+                categories: userIds,
                 tick: {
                     multiline: false,
                     culling: {
@@ -236,15 +245,15 @@ function test(subjectIDUnique,  when) {
                     }
                 },
                 label: {
-                    text: 'Time Series',
+                    text: 'User ID',
                     position: 'outer-center'
                 }
             },
             y: {
                 type: 'categories',
-                categories: subjectIDUnique,
+                categories: counts,
                 label: {
-                    text: "SubjectID",
+                    text: "Count",
                     position: 'outer-middle'
 
                 }
