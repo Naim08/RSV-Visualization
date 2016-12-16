@@ -111,6 +111,16 @@ function getUniqueIDsFromFilter(filter) {
     return d.unique()
 }
 
+function getUniqueSymptomsFromFilter(filter) {
+    d = []
+    
+    for (var i = 0; i < filter.length; i++) {
+        d.push(filter[i]['Question Text'])
+    }
+    
+    return d.unique()
+}
+
 function filter(master, whatToFilter, inputID) {
     var results = []
     
