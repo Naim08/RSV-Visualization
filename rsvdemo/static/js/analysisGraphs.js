@@ -66,8 +66,8 @@ var whenUnique = when.unique()
 
 
 function doEverything() {
-    test(subjectIDUnique, when)
-    test2(subjectIDUnique, whenUnique)
+    test()
+    test2()
     test3()
     test4()
 }
@@ -171,7 +171,7 @@ function getAppAccessData(master) {
 
 function getSymptomFrequencyData(master, symptom) {
     var start = filterByDate(new Date("2016/10/1"), new Date("2016/10/31"), master)
-    var symptomFilter = filter(start, "Question Text", "NO_SYMPTOMS_LOGGED")
+    var symptomFilter = filter(master, "Question Text", "NO_SYMPTOMS_LOGGED")
     
     var uniqueDates = getUniqueDatesFromFilter(symptomFilter)
     
@@ -213,6 +213,25 @@ function countDistResponse(rows) {
 
         return d
     }
+
+function getSymptomResponseFrequencyData(master) {
+    var symptomFilter = filter(master, "Question Text", "COUGHING")
+    
+    responses = countDistResponse(symptomFilter)
+    
+    results = []
+    results[0] = []
+    results[1] = []
+    
+    for (var key in responses) {
+        if (responses.hasOwnProperty(key)) {
+            results[0].push(key)
+            results[1].push(responses[key])
+        }
+    }
+    
+    return results
+}
 
 function changeTab(element, graphContainer) {
     //grab the navbar from the dom
@@ -309,7 +328,7 @@ function test() {
 }
 
 function test2(subjectIDUnique, whenUnique) {
-    symptomFrequencyData = getSymptomFrequencyData(master, "NO_SYMPTOMS_LOGGED")
+    var symptomFrequencyData = getSymptomFrequencyData(master, "NO_SYMPTOMS_LOGGED")
     symptomFrequencyData[1].unshift("Count")
     
     var when = symptomFrequencyData[0]
@@ -347,7 +366,7 @@ function test2(subjectIDUnique, whenUnique) {
             },
             y: {
                 label: {
-                    text: "Values",
+                    text: "Count",
                     position: 'outer-middle'
 
                 }
@@ -399,31 +418,58 @@ function test3() {
 }
 
 function test4() {
+    
+    var symptomResponseFrequencyData = getSymptomResponseFrequencyData(master)
+    
+    var responseIDs = symptomResponseFrequencyData[0]
+    var counts = symptomResponseFrequencyData[1]
+    counts.unshift("Count")
+    
     var chart = c3.generate({
         bindto: '#chart4',
         data: {
-          columns: [
-            ['data1', 3110, 200, 100, 400, 150, 250],
-            ['data2', 50, 20, 10, 40, 15, 25]
-          ],
-          axes: {
-            data2: 'y2'
-          }
+            //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
+            columns: [
+                counts
+            ],
+            colors: {
+                Actual: "#29AFDF",
+                Forecasted : "#ED2835"
+            },
+            type: 'bar'
+        },
+        subchart: {
+            show: true
         },
         axis: {
-          y: {
-            label: { // ADD
-              text: 'Y Label',
-              position: 'outer-middle'
+            x: {
+                type: 'categories',
+                categories: responseIDs,
+                tick: {
+                    multiline: false,
+                    culling: {
+                        max: 15
+                    }
+                },
+                label: {
+                text: 'Reponse ID',
+                position: 'outer-center'
+                }
+            },
+            y: {
+                label: {
+                    text: "Count",
+                    position: 'outer-middle'
+
+                }
             }
-          },
-          y2: {
-            show: true,
-            label: { // ADD
-              text: 'Y2 Label',
-              position: 'outer-middle'
-            }
-          }
+        },
+        zoom: {
+            enabled: true,
+            rescale: true
+        },
+        legend: {
+            position: 'right'
         }
     });
     

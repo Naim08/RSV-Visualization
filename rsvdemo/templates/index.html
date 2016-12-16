@@ -261,9 +261,8 @@
             $('#reportrange').daterangepicker({
                 format: 'MM/DD/YYYY',
                 startDate: '08/25/2016',
-                endDate: '12/16/2017',
                 minDate: '08/25/2012',
- 
+                maxDate: self.endDate,
                 dateLimit: { days: 60 },
                 showDropdowns: true,
                 showWeekNumbers: true,
@@ -293,6 +292,5 @@
         </script>
 
         <!--    SWITCH!!!!!!!!!!!!!! -->
-      
     </body>
 </html>
