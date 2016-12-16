@@ -19,7 +19,13 @@ Array.prototype.unique = function() {
 
 
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
 var charts = []
+
 
 rsvfile = JSON.parse(resultJSON);
 
@@ -48,7 +54,7 @@ platform.push.apply(platform, rsvfile['Platform'])
 
 ////////////////////////////////////////
 
-var subjectIDUnique = subjectID.unique()
+var subjectIDUnique = subjectID.unique().slice(1)
 
 var whenUnique = when.unique()
 
@@ -65,6 +71,77 @@ function doEverything() {
     test3()
     test4()
 }
+
+
+function makeJSON(data) {
+    obs = []
+    
+    
+    for (i = 1; i < data['Platform'].length; i++) {
+        o = {}
+        
+        o['App Version'] = data['App Version'][i]
+        o['Platform'] = data['Platform'][i]
+        o['Question ID'] = data['Question ID'][i]
+        o['Question Text'] = data['Question Text'][i]
+        o['Response ID'] = data['Response ID'][i]
+        o['Response Text'] = data['Response Text'][i]
+        o['Site ID'] = data['Site ID'][i]
+        o['Subject ID'] = data['Subject ID'][i]
+        o['Therm'] = data['Therm'][i]
+        o['When'] = data['When'][i] 
+        
+        obs.push(o)
+    }
+    
+    return obs
+}
+
+master = makeJSON(data)
+console.log(master)
+
+
+function filter(master, whatToFilter, inputID) {
+    var results = []
+    
+    for (var i = 0; i < master.length; i++) {
+        if (master[i][whatToFilter] == inputID) {
+            results.push(master[i])
+        }
+    }
+    
+    return results
+}
+
+function getAppAccessData(master, uniqueIDs) {
+    counts = []
+    for (id in uniqueIDs) {
+        rows = filter(master, "Subject ID", id)
+        count = countDistWhen(rows)
+        
+        counts.push(count)
+    }
+    
+    results = []
+    results[0] = uniqueIDs
+    results[1] = counts
+    
+    return results
+}
+
+function countDistWhen(rows) {
+    d = {}
+    
+    for (var i = 0; i < rows.length; i++) {
+        d[rows[i]['When']] = 0
+    }
+    
+    return Object.keys(d).length
+}
+
+
+
+
 
 
 function changeTab(element, graphContainer) {
