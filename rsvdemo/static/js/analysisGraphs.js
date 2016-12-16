@@ -121,6 +121,15 @@ function getUniqueSymptomsFromFilter(filter) {
     return d.unique()
 }
 
+function getUniqueDatesFromFilter(filter) {
+     d = []
+    
+    for (var i = 0; i < filter.length; i++) {
+        d.push(filter[i]['When'])
+    }
+    
+    return d.unique()
+}
 function filter(master, whatToFilter, inputID) {
     var results = []
     
@@ -161,6 +170,23 @@ function getAppAccessData(master) {
     return results
 }
 
+function getSymptomFrequencyData(master, symptom) {
+    symptomFilter = filter(master, "Question Text", symptom)
+    
+    uniqueDates = getUniqueDatesFromFilter(symptomFilter)
+    
+    for (var i = 0; i < uniqueDates.length; i++) {
+        rows = filter(symptomFilter, "When", uniqueDates[i])
+        count = countDistWhen(rows)
+        counts.push(count)
+    }
+    results = []
+    results[0] = uniqueDates
+    results[1] = counts
+    
+    return results
+}
+
 function countDistWhen(rows) {
     d = {}
     
@@ -185,10 +211,6 @@ function countDistResponse(rows) {
         return d
     }
 
-
-
-
-
 function changeTab(element, graphContainer) {
     //grab the navbar from the dom
     tabNav = document.getElementById("tabNav")
@@ -207,7 +229,7 @@ function changeTab(element, graphContainer) {
     //make the selected <a> tag look selected
     element.setAttribute("class", "activeTab")
     
-    containers = [document.getElementById("appAccessContainer"), document.getElementById("userSympFreqContainer"), document.getElementById("userSympMapContainer"), document.getElementById("sympResponseContainer")]
+    containers = [document.getElementById("appAccessContainer"), document.getElementById("sympFreqContainer"), document.getElementById("userSympMapContainer"), document.getElementById("sympResponseContainer")]
     //hide all graphs
     for(var i = 0; i < containers.length; i++) {
         containers[i].style.display = "none"
@@ -287,12 +309,18 @@ function test() {
 
 function test2(subjectIDUnique, whenUnique) {
     console.log("test2")
+    
+    symptomFrequencyData = getSymptomFrequencyData(master, "NO_SYMPTOMS_LOGGED")
+    
+    when = symptomFrequencyData[0]
+    counts = symptomFrequencyData[1]
+    
     var chart = c3.generate({
         bindto: '#chart2',
         data: {
             //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
             columns: [
-                whenUnique
+                counts
             ],
             colors: {
                 Actual: "#29AFDF",
@@ -305,7 +333,7 @@ function test2(subjectIDUnique, whenUnique) {
         axis: {
             x: {
                 type: 'categories',
-                categories: subjectIDUnique,
+                categories: when,
                 tick: {
                     multiline: false,
                     culling: {
@@ -313,7 +341,7 @@ function test2(subjectIDUnique, whenUnique) {
                     }
                 },
                 label: {
-                text: 'Time Series',
+                text: 'Date',
                 position: 'outer-center'
                 }
             },
