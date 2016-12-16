@@ -8,11 +8,20 @@
         <link href="{% static '/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
 
         <!-- Toastr style -->
-<!--        <link href="{% static '/css/plugins/toastr/toastr.min.css" rel="stylesheet">-->
+<!--        <link href="{% static '/css/plugins/toastr/toastr.min.css' %}" rel="stylesheet">-->
         
         <!-- c3 style -->
         <link href="{% static '/css/plugins/c3/c3.min.css' %}" rel="stylesheet">
         <link href="{% static '/css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+	<link href="{% static '/css/plugins/datapicker/datepicker3.css' %}" rel="stylesheet">
+	<link href="{% static '/css/plugins/ionRangeSlider/ion.rangeSlider.css' %}" rel="stylesheet">
+	<link href="{% static '/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' %}" rel="stylesheet">
+	<link href="{% static '/css/plugins/daterangepicker/daterangepicker-bs3.css' %}" rel="stylesheet">
+	<link href="{% static '/css/plugins/select2/select2.min.css' %}" rel="stylesheet">
+
+	<link href="{% static '/css/plugins/touchspin/jquery.bootstrap-touchspin.min.css' %}" rel="stylesheet">
+
+	<link href="{% static '/css/plugins/dualListbox/bootstrap-duallistbox.min.css' %}" rel="stylesheet">
 
         <!-- Gritter -->
         <link href="{% static '/js/plugins/gritter/jquery.gritter.css' %}" rel="stylesheet">
@@ -23,10 +32,10 @@
         <script src="{% static '/js/plugins/d3/d3.min.js' %}"></script>
         <script src="{% static '/js/plugins/c3/c3.min.js' %}"></script>
     
-<!--    <script src="../../rsvdemo/tatic/js/analysisGraphs.js"></script>-->
+<!--    <script src="../../rsvdemo/tatic/js/analysisGraphs.js' %}"></script>-->
         
         
-<!--        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />-->
+<!--        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' %}" rel="stylesheet" />-->
           
         
 </head>
@@ -62,7 +71,6 @@
 <script>
     var rsvdata = document.getElementById("rsvdata").value;
     var data = JSON.parse(rsvdata);
-    console.log(data);
 </script>
                 <div class="wrapper wrapper-content" style="padding-top: 0px; padding-left: 0; padding-right: 0;">
                     <div class="row">
@@ -82,7 +90,7 @@
 
                         <ul id="tabNav" class="nav nav-tabs nav-justified">
                             <li><a id="appAccessTab" class="activeTab" onclick="changeTab(this, appAccessContainer)">Application Access Frequency</a></li>
-                            <li><a id="sympFreqTab" onclick="changeTab(this, sympFreqContainer)">User Symptom Frequency</a></li>
+                            <li><a id="sympFreqTab" onclick="changeTab(this, sympFreqContainer)">Symptom Frequency</a></li>
                             <li><a id="userSympMapTab" onclick="changeTab(this, userSympMapContainer)">Symptom User Map</a></li>
                             <li><a id="sympResponseTab" onclick="changeTab(this, sympResponseContainer)">Symptom Response Frequency</a></li>
                         </ul>
@@ -97,17 +105,24 @@
                                         <div class="col-lg-6">
                                             <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Application Access Frequency</h1>
                                             <a class="icon" data-toggle="modal" data-target="#ForecastedModal" style="display: inline-block; position: relative; z-index: 10;">
+
                                                 <span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span>
+
                                             </a>
-                                        </div>
-                                        
-                                        
-                                                                       
+                                        </div>                                                        
                                     </div>
                                 </div>
-                                    
-                                <div class="ibox-content" display="inline-block">
+                                    <div class="ibox-content" display="inline-block">
+                                        <div class="col-lg-0"></div>
+                                            <div class="col-lg-6">
+                                            <div id="reportrange" class="form-control">
+                                            <i class="fa fa-calendar"></i>
+                                            <span></span> <b class="caret"></b>
+                                            </div>
+                                        </div>
 
+                                    </div>
+                                    <div class="ibox-content" display="inline-block">
 
                                         <div id="chart1"></div>
 
@@ -121,7 +136,7 @@
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-title">
                                         <div class="col-lg-6">
-                                            <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>User Symptom Frequency</h1>
+                                            <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Symptom Frequency</h1>
                                             <a class="icon" data-toggle="modal" data-target="#ForecastedModal" style="display: inline-block; position: relative; z-index: 10;">
                                                 <span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span>
                                             </a>
@@ -260,19 +275,60 @@
         <script src="{% static '/js/plugins/chartJs/Chart.min.js' %}"></script>
 
        <script src="{% static '/js/jquery.fileupload.js' %}"></script>
-        <!--    <script src="{% static '/js/plugins/toastr/toastr.min.js"></script>-->
+        <!--    <script src="{% static '/js/plugins/toastr/toastr.min.js' %}"></script>-->
         <script src="{% static '/js/script.js' %}"></script>
         <script src="{% static '/js/plugins/ladda/spin.min.js' %}"></script>
         <script src="{% static '/js/plugins/ladda/ladda.min.js' %}"></script>
         <script src="{% static '/js/plugins/ladda/ladda.jquery.min.js' %}"></script>
          <!-- iCheck -->
         <script src="{% static '/js/plugins/iCheck/icheck.min.js' %}"></script>
+        <!-- Date range use moment.js same as full calendar plugin -->
+    <script src="{% static 'js/plugins/fullcalendar/moment.min.js' %}"></script>
+	 <!-- Data picker -->
+   <script src="{% static '/js/plugins/datapicker/bootstrap-datepicker.js' %}"></script>
+   <!-- Date range picker -->
+    <script src="{% static '/js/plugins/daterangepicker/daterangepicker.js' %}"></script>
+ <!-- Tags Input -->
+    <script src="{% static '/js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js' %}"></script>
 
+    <!-- Dual Listbox -->
+    <script src="{% static '/js/plugins/dualListbox/jquery.bootstrap-duallistbox.js' %}"></script>
         <script type="text/javascript">
             doEverything()
+       
+            $('#reportrange').daterangepicker({
+                format: 'MM/DD/YYYY',
+                startDate: '08/25/2016',
+                minDate: '08/25/2012',
+                maxDate: self.endDate,
+                dateLimit: { days: 60 },
+                showDropdowns: true,
+                showWeekNumbers: true,
+                timePicker: false,
+                timePickerIncrement: 1,
+                timePicker12Hour: true,
+                opens: 'right',
+                drops: 'down',
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-primary',
+                cancelClass: 'btn-default',
+                separator: ' to ',
+                locale: {
+                    applyLabel: 'Submit',
+                    cancelLabel: 'Cancel',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    customRangeLabel: 'Custom',
+                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    firstDay: 1
+                }
+            }, function(start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            });
         </script>
 
         <!--    SWITCH!!!!!!!!!!!!!! -->
-      
     </body>
 </html>
