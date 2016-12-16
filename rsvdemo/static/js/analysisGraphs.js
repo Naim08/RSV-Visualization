@@ -101,6 +101,16 @@ master = makeJSON(data)
 console.log(master)
 
 
+function getUniqueIDsFromFilter(filter) {
+    d = []
+    
+    for (var i = 0; i < filter.length; i++) {
+        d.push(filter[i]['Subject ID'])
+    }
+    
+    return d.unique()
+}
+
 function filter(master, whatToFilter, inputID) {
     var results = []
     
@@ -113,8 +123,10 @@ function filter(master, whatToFilter, inputID) {
     return results
 }
 
-function getAppAccessData(master, uniqueIDs) {
+function getAppAccessData(master) {
     counts = []
+    uniqueIDs = getUniqueIDsFromFilter(master)
+    
     for (var i = 0; i < uniqueIDs.length; i++) {
         rows = filter(master, "Subject ID", uniqueIDs[i])
         count = countDistWhen(rows)
