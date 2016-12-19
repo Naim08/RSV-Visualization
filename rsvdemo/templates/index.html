@@ -63,7 +63,7 @@
                             
                             
                             <div class="col-lg-3 text-right" style="padding-right: 5px">
-                                <button class="btn btn-lg btn-danger" href="/download?docname={{savedDocument}}"><a style="color: white; text-align: center;" href="/download?docname={{savedDocument}}"><i class="fa fa-cloud-download"></i> Download User Data</a></button>
+                                <button class="btn btn-lg btn-danger" href="/download?docname={{savedDocument}}"><a style="color: white; text-align: center;" href="/rsvdemo"><i class="fa fa-cloud-download"></i> Download User Data</a></button>
                             </div>
                         </div>
             
@@ -78,8 +78,8 @@
                         var resultJSON = document.getElementById("rsvdata").value;
                     </script>
 
-                        <script src="{% static '/js/analysisgraphs.js' %}"></script>
-                        <link href="{% static '/css/analysisgraphs.css' %}" rel="stylesheet">
+                        <script src="../static/js/analysisGraphs.js"></script>
+                        <link href="../static/css/analysisGraphs.css" rel="stylesheet">
 
         <!--        do not remove this script. it is needed to get data from server-->
         <!--        do not remove this script. it is needed to get data from server-->
@@ -104,11 +104,13 @@
                                     <div class="ibox-title">
                                         <div class="col-lg-7">
                                             <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Application Access Frequency</h1>
+<!--
                                             <a class="icon" data-toggle="modal" data-target="#ForecastedModal" style="display: inline-block; position: relative; z-index: 10;">
 
                                                 <span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span>
 
                                             </a>
+-->
                                         </div>
 
                                          
@@ -124,14 +126,14 @@
                                                 <h4 style="float: left; padding-right: 15px">Subject ID: </h4>
                                                 <div class="input-group">
                                                   <span class="input-group-btn"> 
-                                                  <input type="text" class="form-control">
+                                                  <input id="subID" type="text" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
                                         
                                         <div class="col-lg-1">
                                             <div class="input-group">
-                                              <button class="btn btn-sm btn-danger" data-placement="top">Apply Filters</button>
+                                              <button class="btn btn-sm btn-danger" data-placement="top" onclick="test(true)">Apply Filters</button>
                                             </div>
                                         </div>
 
@@ -154,9 +156,11 @@
                                     <div class="ibox-title">
                                         <div class="col-lg-6">
                                             <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Symptom Frequency</h1>
+<!--
                                             <a class="icon" data-toggle="modal" data-target="#ForecastedModal" style="display: inline-block; position: relative; z-index: 10;">
                                                 <span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span>
                                             </a>
+-->
                                         </div>
                                         
                                         <div class="col-lg-1">
@@ -219,9 +223,11 @@
                                     <div class="ibox-title">
                                         <div class="col-lg-6">
                                             <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Adhoc Query Frequency</h1>
+<!--
                                             <a class="icon" data-toggle="modal" data-target="#ForecastedModal" style="display: inline-block; position: relative; z-index: 10;">
                                                 <span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span>
                                             </a>
+-->
                                         </div>
 
                                     </div>
@@ -241,9 +247,11 @@
                                     <div class="ibox-title">
                                         <div class="col-lg-6">
                                             <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>COUGHING: Response Frequency</h1>
+<!--
                                             <a class="icon" data-toggle="modal" data-target="#ForecastedModal" style="display: inline-block; position: relative; z-index: 10;">
                                                 <span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span>
                                             </a>
+-->
                                         </div>
 
                                         <div class="col-lg-1">
@@ -365,9 +373,9 @@
             $('#reportrange').daterangepicker({
                 format: 'MM/DD/YYYY',
                 startDate: '08/25/2016',
-                minDate: '08/25/2012',
+                minDate: '08/25/2016',
                 maxDate: self.endDate,
-                dateLimit: { days: 60 },
+//                dateLimit: { days: 60 },
                 showDropdowns: true,
                 showWeekNumbers: true,
                 timePicker: false,
@@ -390,7 +398,9 @@
                     firstDay: 1
                 }
             }, function(start, end, label) {
-                console.log(start.toISOString(), end.toISOString(), label);
+                var startDate = start._d
+                var endDate = end._d
+                console.log(startDate, endDate, label);
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             });
         </script>

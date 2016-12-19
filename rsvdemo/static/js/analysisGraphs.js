@@ -66,7 +66,7 @@ var whenUnique = when.unique()
 
 
 function doEverything() {
-    test()
+    test(false)
     test2()
     test3()
     test4()
@@ -162,12 +162,26 @@ function countDistWhen(rows) {
     return Object.keys(d).length
 }
 
-function getAppAccessData(master) {
+function getAppAccessData(master, f) {
+    var arr = master
+    if (f) {
+        var startDate = $('#reportrange').data('daterangepicker').startDate;
+        var endDate = $('#reportrange').data('daterangepicker').endDate;
+        
+        arr = filterByDate(startDate, endDate, arr)
+        
+        var subjectID = document.getElementById("subID").value
+        
+        if (subjectID) {
+            arr = filter(arr, "Subject ID", subjectID)
+        }
+    }
+    
     var counts = []
-    var uniqueIDs = getUniqueIDsFromFilter(master)
+    var uniqueIDs = getUniqueIDsFromFilter(arr)
     
     for (var i = 0; i < uniqueIDs.length; i++) {
-        rows = filter(master, "Subject ID", uniqueIDs[i])
+        rows = filter(arr, "Subject ID", uniqueIDs[i])
         count = countDistWhen(rows)
         counts.push(count)
     }
@@ -245,6 +259,44 @@ function getSymptomResponseFrequencyData(master) {
     return results
 }
 
+function getAdhocData(master) {
+    var applicableSymptoms = ["FEEDING_ISSUES", "DEHYDRATION", "DIFFICULTY_BREATHING", "RUNNY_NOSE", "COUGHING", "RESPIRATORY_NOISE"]
+    var userFilter = filter(master, "Subject ID", 007)
+    
+    var uniqueDays = getUniqueDatesFromFilter(userFilter)
+    
+    results = []
+    results[0] = []
+    results[1] = []
+    results[2] = []
+    
+    for (var i = 0; i < uniqueDays.length; i++) {
+        s = 0
+        
+        rows = filter(userFilter, "When String", uniqueDays[i])
+        
+        for (var j = 0; j < rows.length; j++) {
+            if (applicableSymptoms.contains(rows[j]['Question Text'])) {
+                s += rows[j]['Response ID'] - 1
+            }
+        }
+        
+        results[0].push(uniqueDays[i])
+        results[1].push(s)
+    }
+    
+    for (var i = 0; i < results[1].length; i++) {
+        if (results[1][i] >= 6) {
+            results[2].push(results[1][i])
+        }
+        else {
+            results[2].push(NaN)
+        }
+    }
+    
+    return results
+}
+
 function changeTab(element, graphContainer) {
     //grab the navbar from the dom
     var tabNav = document.getElementById("tabNav")
@@ -277,8 +329,8 @@ function changeTab(element, graphContainer) {
 }
 
 
-function test() {    
-    var appAccessData = getAppAccessData(master)
+function test(filter) {    
+    var appAccessData = getAppAccessData(master, filter)
     
     appAccessData[1].unshift("Count")
     
@@ -398,33 +450,61 @@ function test2(subjectIDUnique, whenUnique) {
 }
 
 function test3() {
+    adHocData = getAdhocData(master)
+    
+    dates = adHocData[0]
+    sums = adHocData[1]
+    over6 = adHocData[2]
+    
+    sums.unshift("Adhoc Sum")
+    
     var chart = c3.generate({
         bindto: '#chart3',
         data: {
-          columns: [
-            ['data1', 100, 200, 100, 400, 150, 250],
-            ['data2', 50, 20, 10, 40, 15, 25]
-          ],
-          axes: {
-            data2: 'y2'
-          }
+            //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
+            columns: [
+                sums
+            ],
+            colors: {
+                Actual: "#29AFDF",
+                Forecasted : "#ED2835"
+            }
+        },
+        subchart: {
+            show: true
         },
         axis: {
-          y: {
-            label: { // ADD
-              text: 'Y Label',
-              position: 'outer-middle'
+            x: {
+                type: 'categories',
+                categories: dates,
+                tick: {
+                    multiline: false,
+                    culling: {
+                        max: 15
+                    }
+                },
+                label: {
+                text: 'Date',
+                position: 'outer-center'
+                }
+            },
+            y: {
+                label: {
+                    text: "Sum",
+                    position: 'outer-middle'
+
+                }
             }
-          },
-          y2: {
-            show: true,
-            label: { // ADD
-              text: 'Y2 Label',
-              position: 'outer-middle'
-            }
-          }
+        },
+        zoom: {
+            enabled: true,
+            rescale: true
+        },
+        legend: {
+            position: 'right'
         }
     });
+    
     charts.push(chart)
     
 }
