@@ -372,8 +372,8 @@
        
             $('#reportrange').daterangepicker({
                 format: 'MM/DD/YYYY',
-                startDate: '08/25/2016',
-                minDate: '08/25/2016',
+                startDate: '08/24/2016',
+                minDate: '08/24/2016',
                 maxDate: self.endDate,
 //                dateLimit: { days: 60 },
                 showDropdowns: true,
@@ -398,9 +398,6 @@
                     firstDay: 1
                 }
             }, function(start, end, label) {
-                var startDate = start._d
-                var endDate = end._d
-                console.log(startDate, endDate, label);
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             });
         </script>
