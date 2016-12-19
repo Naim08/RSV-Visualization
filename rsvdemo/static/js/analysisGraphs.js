@@ -171,7 +171,6 @@ function getAppAccessData(master, f) {
         arr = filterByDate(startDate, endDate, arr)
         
         var subjectID = document.getElementById("subID").value
-        
         if (subjectID) {
             arr = filter(arr, "Subject ID", subjectID)
         }
