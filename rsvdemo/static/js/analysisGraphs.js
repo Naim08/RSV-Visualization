@@ -393,7 +393,7 @@ function test(useFilter) {
             rescale: true
         },
         legend: {
-            position: 'right'
+            show: false,
         }
     });
     
@@ -551,7 +551,7 @@ function test4(useFilter) {
             type: 'bar'
         },
         subchart: {
-            show: true
+            show: false,
         },
         axis: {
             x: {
@@ -581,7 +581,7 @@ function test4(useFilter) {
             rescale: true
         },
         legend: {
-            position: 'right'
+            show: false,
         }
     });
     
