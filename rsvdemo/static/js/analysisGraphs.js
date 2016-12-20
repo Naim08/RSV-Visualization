@@ -167,6 +167,8 @@ function getAppAccessData(master, useFilter) {
         var startDate = $('#reportrangeAAF').data('daterangepicker').startDate;
         var endDate = $('#reportrangeAAF').data('daterangepicker').endDate;
         
+        $('#reportrangeAAF span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+        
         arr = filterByDate(startDate, endDate, arr)
         
         var subjectIDSelect = document.getElementById("subjectidAAF")
@@ -201,6 +203,8 @@ function getSymptomFrequencyData(master, useFilter) {
     if (useFilter) {      
         var startDate = $('#reportrangeSF').data('daterangepicker').startDate;
         var endDate = $('#reportrangeSF').data('daterangepicker').endDate;
+        
+        $('#reportrangeSF span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
         
         arr = filterByDate(startDate, endDate, arr)
         
@@ -279,6 +283,8 @@ function getSymptomResponseFrequencyData(master, useFilter) {
         var startDate = $('#reportrangeSRF').data('daterangepicker').startDate;
         var endDate = $('#reportrangeSRF').data('daterangepicker').endDate;
         
+        $('#reportrangeSRF span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+        
         arr = filterByDate(startDate, endDate, arr)
         
         var subjectIDSelect = document.getElementById("subjectidSRF")
@@ -319,6 +325,8 @@ function getAdhocData(master, useFilter) {
     if (useFilter) {
         var startDate = $('#reportrangeAF').data('daterangepicker').startDate;
         var endDate = $('#reportrangeAF').data('daterangepicker').endDate;
+        
+        $('#reportrangeAF span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
         
         arr = filterByDate(startDate, endDate, arr)
         
