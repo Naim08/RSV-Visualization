@@ -128,6 +128,11 @@ function getUniqueDatesFromFilter(filter) {
     }
     return d.unique()
 }
+
+
+
+
+
 function filter(master, whatToFilter, inputID) {
     var results = []
     
@@ -167,10 +172,16 @@ function getAppAccessData(master, useFilter) {
         var startDate = $('#reportrangeAAF').data('daterangepicker').startDate;
         var endDate = $('#reportrangeAAF').data('daterangepicker').endDate;
         
+        console.log(endDate)
+        
+        document.getElementById("dateAAF").innerHTML = startDate._d.toLocaleDateString() + " - " + endDate._d.toLocaleDateString()
+        
         arr = filterByDate(startDate, endDate, arr)
         
         var subjectIDSelect = document.getElementById("subjectidAAF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
+        
+        document.getElementById("userAAF").innerHTML = subjectID
         
         if (subjectID != 'All') {
             arr = filter(arr, "Subject ID", subjectID)
@@ -203,10 +214,14 @@ function getSymptomFrequencyData(master, useFilter) {
         
         arr = filterByDate(startDate, endDate, arr)
         
+        document.getElementById("dateSF").innerHTML = startDate._d.toLocaleDateString() + " - " + endDate._d.toLocaleDateString()
+        
         var subjectIDSelect = document.getElementById("subjectidSF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
         
         console.log(subjectID)
+        
+        document.getElementById("userSF").innerHTML = subjectID
         
         if (subjectID != 'All') {
             arr = filter(arr, "Subject ID", subjectID)
@@ -216,6 +231,8 @@ function getSymptomFrequencyData(master, useFilter) {
         var symptom = symptomSelect.options[symptomSelect.selectedIndex].text
         
         console.log(symptom)
+        
+        document.getElementById("sympSF").innerHTML = symptom
         
         arr = filter(arr, "Question Text", symptom)
         console.log(arr)
@@ -276,10 +293,14 @@ function getSymptomResponseFrequencyData(master, useFilter) {
         
         arr = filterByDate(startDate, endDate, arr)
         
+        document.getElementById("dateSRF").innerHTML = startDate._d.toLocaleDateString() + " - " + endDate._d.toLocaleDateString()
+        
         var subjectIDSelect = document.getElementById("subjectidSRF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
         
         console.log(subjectID)
+        
+        document.getElementById("userSRF").innerHTML = subjectID
         
         if (subjectID != 'All') {
             arr = filter(arr, "Subject ID", subjectID)
@@ -289,6 +310,8 @@ function getSymptomResponseFrequencyData(master, useFilter) {
         var symptom = symptomSelect.options[symptomSelect.selectedIndex].text
         
         console.log(symptom)
+        
+        document.getElementById("sympSRF").innerHTML = symptom
         
         arr = filter(arr, "Question Text", symptom)
         console.log(arr)
@@ -322,8 +345,12 @@ function getAdhocData(master, useFilter) {
         
         arr = filterByDate(startDate, endDate, arr)
         
+        document.getElementById("dateAF").innerHTML = startDate._d.toLocaleDateString() + " - " + endDate._d.toLocaleDateString()
+        
         var subjectIDSelect = document.getElementById("subjectidAF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
+        
+        document.getElementById("userAF").innerHTML = subjectID
         
         if (subjectID != 'All') {
             arr = filter(arr, "Subject ID", subjectID)
@@ -399,6 +426,16 @@ function changeTab(element, graphContainer) {
         charts[i].resize()
     }
 }
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
 
 function test(useFilter) {    
