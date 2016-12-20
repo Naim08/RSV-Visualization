@@ -873,9 +873,10 @@ fieldset[disabled] .btn-warning.active {
   border-color: #f9b66d;
 }
 .btn-danger {
-  background-color: #ED2835;
+  ;background-color: #ED2835;
   border-color: #ED2835;
   color: #FFFFFF;
+    margin-top: 22px;
 }
 .btn-danger:hover,
 .btn-danger:focus,
@@ -3216,11 +3217,12 @@ body.tour-open .animated {
   margin: 10px;
   float: left;
   overflow: hidden;
-  min-height: 150px;
+  min-height: 90px;
+    max-width: 1483px;
   min-width: 150px;
 }
 .resizable-panels .ibox .ibox-content {
-  height: calc(100% - 49px);
+  height: 90px;
 }
 .ui-resizable-helper {
   background: rgba(211, 211, 211, 0.4);
