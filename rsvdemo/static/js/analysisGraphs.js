@@ -242,7 +242,15 @@ function getSymptomFrequencyData(master, useFilter) {
             selected.push($(this).val());
         });
         
-        document.getElementById("sympSF").innerHTML = symptom
+        if (selected.length == 0) {
+            document.getElementById("sympSF").innerHTML = "All"
+        }
+        else if (selected.length > 3) {
+            document.getElementById("sympSF").innerHTML = "4+ (See Data Filters Box)"
+        }
+        else{
+            document.getElementById("sympSF").innerHTML = selected.toString()
+        }
         
         
         if (selected.length != 0) {

@@ -317,6 +317,10 @@
     direction: rtl;
     padding: 4px 5px 4px 20px; }
 
+.chosen-container-multi .chosen-choices{
+    overflow-y: scroll !important;
+    height: 67% !important;
+}
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 2dppx) {
     .chosen-rtl .chosen-search input[type="text"],
     .chosen-container-single .chosen-single abbr,
