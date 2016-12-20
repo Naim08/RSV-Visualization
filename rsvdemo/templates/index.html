@@ -3,101 +3,86 @@
 
 {% block body %}{% load static %}
 <div id="wrapper">
-<div id="page-wrapper" class="gray-bg">
-    <input type="hidden" id=rsvdata value="{{rsvfile}}">
-    <div class="row border-bottom">
-    </div>
-    <div class="row  border-bottom white-bg dashboard-header" style="display: flex; align-items:center; padding-left: 0; padding-right: 0">
-        <div class="col-lg-3 text-left" style="padding-left: 5px">
-            <img src="{% static '/img/janssen-logo.png' %}" alt="ITAS Logo"  style="width:200px;">
-            <br/>
-            <br/>
+    <div id="page-wrapper" class="gray-bg">
+        <input type="hidden" id=rsvdata value="{{rsvfile}}">
+        <div class="row border-bottom">
         </div>
-        <div class="col-lg-6 text-right" style="text-align: center">
-            <h1> RSV Watch Data Visualization</h1>
+        <div class="row  border-bottom white-bg dashboard-header" style="display: flex; align-items:center; padding-left: 0; padding-right: 0">
+            <div class="col-lg-3 text-left" style="padding-left: 5px">
+                <img src="{% static '/img/janssen-logo.png' %}" alt="ITAS Logo"  style="width:200px;">
+                <br/>
+                <br/>
+            </div>
+            <div class="col-lg-6 text-right" style="text-align: center">
+                <h1> RSV Watch Data Visualization</h1>
+            </div>
+            <div class="col-lg-3 text-right" style="padding-right: 5px">
+                <button class="btn btn-lg btn-danger" href="/download?docname={{savedDocument}}"><a style="color: white; text-align: center;" href="/rsvdemo/download"><i class="fa fa-cloud-download"></i> Download User Data</a></button>
+            </div>
         </div>
-        <div class="col-lg-3 text-right" style="padding-right: 5px">
-            <button class="btn btn-lg btn-danger" href="/download?docname={{savedDocument}}"><a style="color: white; text-align: center;" href="/rsvdemo/download"><i class="fa fa-cloud-download"></i> Download User Data</a></button>
-        </div>
-    </div>
-    <input type="hidden" id=rsvdata value="{{rsvfile}}">
-    <div class="wrapper wrapper-content" style="padding-top: 0px; padding-left: 0; padding-right: 0;">
-        <div class="row">
-            <script type="text/javascript">
-                var data = document.getElementById("rsvdata").value;
-            </script>
-            <script src="../static/js/analysisGraphs.js"></script>
-            <link href="../static/css/analysisGraphs.css" rel="stylesheet">
-            <!--        do not remove this script. it is needed to get data from server-->
-            <!--        do not remove this script. it is needed to get data from server-->
-            <div class="col-xs-12" style="padding-left: 0; padding-right: 0;">
-                <ul id="tabNav" class="nav nav-tabs nav-justified">
-                    <li><a id="appAccessTab" class="activeTab" onclick="changeTab(this, appAccessContainer)">Application Access Frequency</a></li>
-                    <li><a id="sympFreqTab" onclick="changeTab(this, sympFreqContainer)">Symptom Frequency</a></li>
-                    <li><a id="sympResponseTab" onclick="changeTab(this, sympResponseContainer)">Symptom Response Frequency</a></li>
-                    <li><a id="userSympMapTab" onclick="changeTab(this, userSympMapContainer)">Adhoc Query Frequency</a></li>
-                </ul>
-                <br>
-                <div style="padding-top: 10px; display: block" id="appAccessContainer" class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="ibox float-e-margins ">
+        <input type="hidden" id=rsvdata value="{{rsvfile}}">
+        <div class="wrapper wrapper-content" style="padding-top: 0px; padding-left: 0; padding-right: 0;">
+            <div class="row">
+                <script type="text/javascript">
+                    var data = document.getElementById("rsvdata").value;
+                </script>
+                <script src="../static/js/analysisGraphs.js"></script>
+                <link href="../static/css/analysisGraphs.css" rel="stylesheet">
+                <!--        do not remove this script. it is needed to get data from server-->
+                <!--        do not remove this script. it is needed to get data from server-->
+                <div class="col-xs-12" style="padding-left: 0; padding-right: 0;">
+                    <ul id="tabNav" class="nav nav-tabs nav-justified">
+                        <li><a id="appAccessTab" class="activeTab" onclick="changeTab(this, appAccessContainer)">Application Access Frequency</a></li>
+                        <li><a id="sympFreqTab" onclick="changeTab(this, sympFreqContainer)">Symptom Frequency</a></li>
+                        <li><a id="sympResponseTab" onclick="changeTab(this, sympResponseContainer)">Symptom Response Frequency</a></li>
+                        <li><a id="userSympMapTab" onclick="changeTab(this, userSympMapContainer)">Adhoc Query Frequency</a></li>
+                    </ul>
+                    <br>
+                   
 
-                                 <div class="ibox-title text-center">
-                                  <div class="ibox-tools">
-                                        <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                        </a>
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_advanced.html#">
-                                        <i class="fa fa-wrench"></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-user">
-                                            <!-- <li><a href="form_advanced.html#">Config option 13</a>
-                                            </li>
-                                            <li><a href="form_advanced.html#">Config option 2</a>
-                                            </li> -->
-                                        </ul>
-                                        <a class="close-link">
-                                        <i class="fa fa-times"></i>
-                                        </a>
-                                    </div>
-                                    <h2 class="" style="color: #ED2835">
-                                        Apply Filters
-                                    </h2>
-                                </div>
-                                <div class="ibox-content">
-                                    <div class="form-group col-lg-6">
-                                        <label class="font-noraml">Subject ID</label>
-                                        <div>
-                                            <select data-placeholder="Choose a Country..." class="chosen-select"  tabindex="2" id="subjectid">
-                                                <option value="" >Select</option>    
-                                            </select>
+<!--Application Access Graph                    -->
+                    <div style="padding-top: 10px; display: block" id="appAccessContainer" class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins ">
+                                    <div class="ibox-title text-center" style="height:55px;">
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
                                         </div>
+                                        <h2 class="" style="color: #ED2835">
+                                        Data Filters
+                                        </h2>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <label class="font-noraml">Change Date</label>
-                                        <div id="reportrange" class="form-control">
-                                            <i class="fa fa-calendar"></i>
-                                            <span></span> <b class="caret"></b>
+                                    <div class="ibox-content" style="height:90px;">
+                                        <div class="form-group col-lg-5">
+                                            <label class="font-noraml">Subject ID</label>
+                                            <div>
+                                                <select data-placeholder="Choose a Country..." class="chosen-select"  tabindex="2" id="subjectidAAF">
+                                                    <option value="" >All</option>    
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-12 text-center" style="text-align: -webkit-center;">
 
-                                        <div class="input-group text-center">
-                                          <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="test(true)">Apply Filters</span>
+                                        <div class="col-lg-5">
+                                            <label class="font-noraml">Change Date</label>
+                                            <div id="reportrangeAAF" class="form-control datePicker">
+                                                <i class="fa fa-calendar"></i>
+                                                <span></span> <b class="caret"></b>
+                                            </div>
                                         </div>
-                                    
+                                        <div class="col-lg-2 text-center" style="text-align: -webkit-center; padding-top:15px;">
+
+                                            <div class="input-group text-center">
+                                                <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="test(true)">Apply Filters</span>
+                                            </div>
+
+                                        </div>
                                     </div>
-                                   <br>
-                                   <br>
-                                   <br>
-                                   <br>
-                                   <br>
-                                   <br>
                                 </div>
                             </div>
                         </div>
-                    </div>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="ibox">
@@ -106,9 +91,9 @@
                                             <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Application Access Frequency</h1>
                                             <!--
                                                 <a class="icon" data-toggle="modal" data-target="#ForecastedModal" style="display: inline-block; position: relative; z-index: 10;">
-                                                
+
                                                     <span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span>
-                                                
+
                                                 </a>
                                                 -->
                                         </div>
@@ -120,18 +105,20 @@
                             </div>
                         </div>
                     </div>
+                    
+                    
+                    
+<!--SYMPTOM FREQ GRAPH                    -->
+                    
                     <div style="padding-top: 10px; display: none" id="sympFreqContainer" class="container">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins ">
 
-                                     <div class="ibox-title text-center">
+                                     <div class="ibox-title text-center" style="height:55px;">
                                       <div class="ibox-tools">
                                             <a class="collapse-link">
                                             <i class="fa fa-chevron-up"></i>
-                                            </a>
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="form_advanced.html#">
-                                            <i class="fa fa-wrench"></i>
                                             </a>
                                             <ul class="dropdown-menu dropdown-user">
                                                 <!-- <li><a href="form_advanced.html#">Config option 13</a>
@@ -139,44 +126,42 @@
                                                 <li><a href="form_advanced.html#">Config option 2</a>
                                                 </li> -->
                                             </ul>
-                                            <a class="close-link">
-                                            <i class="fa fa-times"></i>
-                                            </a>
+                                            
                                         </div>
                                         <h2 class="" style="color: #ED2835">
-                                            Apply Filters
+                                            Data Filters
                                         </h2>
                                     </div>
-                                    <div class="ibox-content">
-                                        <div class="form-group col-lg-4">
+                                    <div class="ibox-content" style="height:90px;">
+                                        <div class="form-group col-lg-2">
                                             <label class="font-noraml">Subject ID</label>
                                             <div>
-                                                <select data-placeholder="Filter SubjectID" class="chosen-select"  tabindex="2" id="subjectid">
-                                                    <option value="" >Select</option>    
+                                                <select data-placeholder="Filter SubjectID" class="chosen-select"  tabindex="2" id="subjectidSF">
+                                                    <option value="" >All</option>    
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group col-lg-4">
                                             <label class="font-noraml">Symptom</label>
                                             <div>
-                                                <select data-placeholder="Filter Symptoms" class="chosen-select" multiple style="width:350px;" tabindex="4" id="symptomid">
-                                                    <option value="">Select</option>  
+                                                <select data-placeholder="Filter Symptoms" class="chosen-select" style="width:350px;" tabindex="4" id="symptomidSF">
+                                                    <option value="" selected>NO_SYMPTOMS_LOGGED</option>  
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <label class="font-noraml">Change Date</label>
-                                            <div id="reportrange" class="form-control">
+                                            <div id="reportrangeSF" class="form-control datePicker">
                                                 <i class="fa fa-calendar"></i>
                                                 <span></span> <b class="caret"></b>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 text-center" style="text-align: -webkit-center;">
+                                        <div class="col-lg-2 text-center" style="text-align: -webkit-center; padding-top:15px;">
 
                                             <div class="input-group text-center">
-                                              <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="test(true)">Apply Filters</span>
+                                              <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="test2(true)">Apply Filters</span>
                                             </div>
-                                        
+
                                         </div>
                                        <br>
                                        <br>
@@ -199,43 +184,6 @@
                                             </a>
                                             -->
                                     </div>
-                                    <div class="col-lg-1">
-                                        <div class="ibox-tools">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
-                                            <button class="btn btn-sm btn-danger" data-placement="top">Select Symptom</button>
-                                            </a>
-                                            <ul class="dropdown-menu" id="symptomDD">
-                                                <li class="dropdown-item" href="#"><a>Feeding Issues</a></li>
-                                                <li class="dropdown-item" href="#"><a>Dehydration</a></li>
-                                                <li class="dropdown-item" href="#"><a>Difficulty Breathing </a></li>
-                                                <li class="dropdown-item" href="#"><a>Runny Nose</a></li>
-                                                <li class="dropdown-item" href="#"><a>Coughing</a></li>
-                                                <li class="dropdown-item" href="#"><a>Respiratory Noise</a></li>
-                                                <li class="dropdown-item" href="#"><a>Medical Intervention</a></li>
-                                                <li class="dropdown-item" href="#"><a>No Symptoms Logged</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div id="reportrange" class="form-control">
-                                            <i class="fa fa-calendar"></i>
-                                            <span></span> <b class="caret"></b>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <div class="row">
-                                            <h4 style="float: left; padding-right: 15px">Subject ID: </h4>
-                                            <div class="input-group">
-                                                <span class="input-group-btn"> 
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <div class="input-group">
-                                            <button class="btn btn-sm btn-danger" data-placement="top">Apply Filters</button>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="ibox-content" display="inline-block">
                                     <div id="chart2"></div>
@@ -243,65 +191,55 @@
                             </div>
                         </div>
                     </div>
+                        
+<!--AD-HOC GRAPH     -->
                     <div style="padding-top: 10px; display: none" id="userSympMapContainer" class="container">
 
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins ">
 
-                                     <div class="ibox-title text-center">
+                                     <div class="ibox-title text-center" style="height:55px;">
                                       <div class="ibox-tools">
                                             <a class="collapse-link">
-                                            <i class="fa fa-chevron-up"></i>
+                                                <i class="fa fa-chevron-up"></i>
                                             </a>
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="form_advanced.html#">
-                                            <i class="fa fa-wrench"></i>
-                                            </a>
+<!--
                                             <ul class="dropdown-menu dropdown-user">
-                                                <!-- <li><a href="form_advanced.html#">Config option 13</a>
+                                                 <li><a href="form_advanced.html#">Config option 13</a>
                                                 </li>
                                                 <li><a href="form_advanced.html#">Config option 2</a>
-                                                </li> -->
+                                                </li> 
                                             </ul>
-                                            <a class="close-link">
-                                            <i class="fa fa-times"></i>
-                                            </a>
+-->
                                         </div>
                                         <h2 class="" style="color: #ED2835">
-                                            Apply Filters
+                                            Data Filters
                                         </h2>
                                     </div>
-                                    <div class="ibox-content">
-                                        <div class="form-group col-lg-4">
+                                    <div class="ibox-content" style="height:90px;">
+                                        <div class="form-group col-lg-2">
                                             <label class="font-noraml">Subject ID</label>
                                             <div>
-                                                <select data-placeholder="Filter SubjectID" class="chosen-select"  tabindex="2" id="subjectid">
-                                                    <option value="" >Select</option>    
+                                                <select data-placeholder="Filter SubjectID" class="chosen-select"  tabindex="2" id="subjectidAF">
+                                                    <option value="" >All</option>    
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group col-lg-4">
-                                            <label class="font-noraml">Symptom</label>
-                                            <div>
-                                                <select data-placeholder="Filter Symptoms" class="chosen-select" multiple style="width:350px;" tabindex="4" id="symptomid">
-                                                    <option value="">Select</option>  
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-6">
                                             <label class="font-noraml">Change Date</label>
-                                            <div id="reportrange" class="form-control">
+                                            <div id="reportrangeAF" class="form-control datePicker">
                                                 <i class="fa fa-calendar"></i>
                                                 <span></span> <b class="caret"></b>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 text-center" style="text-align: -webkit-center;">
+                                        <div class="col-lg-2 text-center" style="text-align: -webkit-center; padding-top:15px;">
 
                                             <div class="input-group text-center">
-                                              <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="test(true)">Apply Filters</span>
+                                              <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="test3(true)">Apply Filters</span>
                                             </div>
-                                        
-                                        </div>
+
+                                       </div>
                                        <br>
                                        <br>
                                        <br>
@@ -330,18 +268,17 @@
                             </div>
                         </div>
                     </div>
-                    <div style="padding-top: 10px; display: none" id="sympResponseContainer" class="container">
-                    <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins ">
 
-                                     <div class="ibox-title text-center">
+<!--SYMP RESPONSE GRAPH     -->
+                    <div style="padding-top: 10px; display: none" id="sympResponseContainer" class="container">
+                        <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins ">
+
+                                     <div class="ibox-title text-center" style="height:55px;">
                                       <div class="ibox-tools">
                                             <a class="collapse-link">
                                             <i class="fa fa-chevron-up"></i>
-                                            </a>
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="form_advanced.html#">
-                                            <i class="fa fa-wrench"></i>
                                             </a>
                                             <ul class="dropdown-menu dropdown-user">
                                                 <!-- <li><a href="form_advanced.html#">Config option 13</a>
@@ -349,45 +286,43 @@
                                                 <li><a href="form_advanced.html#">Config option 2</a>
                                                 </li> -->
                                             </ul>
-                                            <a class="close-link">
-                                            <i class="fa fa-times"></i>
-                                            </a>
+
                                         </div>
                                         <h2 class="" style="color: #ED2835">
-                                            Apply Filters
+                                            Data Filters
                                         </h2>
                                     </div>
-                                    <div class="ibox-content">
-                                        <div class="form-group col-lg-4">
+                                    <div class="ibox-content" style="height:90px;">
+                                        <div class="form-group col-lg-2">
                                             <label class="font-noraml">Subject ID</label>
                                             <div>
-                                                <select data-placeholder="Filter SubjectID" class="chosen-select"  tabindex="2" id="subjectid">
-                                                    <option value="" >Select</option>    
+                                                <select data-placeholder="Filter SubjectID" class="chosen-select"  tabindex="2" id="subjectidSRF">
+                                                    <option value="" >All</option>    
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group col-lg-4">
                                             <label class="font-noraml">Symptom</label>
                                             <div>
-                                                <select data-placeholder="Filter Symptoms" class="chosen-select" multiple style="width:350px;" tabindex="4" id="symptomid">
-                                                    <option value="">Select</option>  
+                                                <select data-placeholder="Filter Symptoms" class="chosen-select" style="width:350px;" tabindex="4" id="symptomidSRF">
+                                                    <option value="">COUGHING</option>  
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <label class="font-noraml">Change Date</label>
-                                            <div id="reportrange" class="form-control">
+                                            <div id="reportrangeSRF" class="form-control datePicker">
                                                 <i class="fa fa-calendar"></i>
                                                 <span></span> <b class="caret"></b>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 text-center" style="text-align: -webkit-center;">
+                                        <div class="col-lg-2 text-center" style="text-align: -webkit-center; padding-top:15px;">
 
                                             <div class="input-group text-center">
-                                              <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="test(true)">Apply Filters</span>
+                                              <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="test4(true)">Apply Filters</span>
                                             </div>
-                                        
-                                        </div>
+
+                                       </div>
                                        <br>
                                        <br>
                                        <br>
@@ -402,49 +337,13 @@
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <div class="col-lg-6">
-                                        <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>COUGHING: Response Frequency</h1>
+                                        <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Response Frequency</h1>
                                         <!--
                                             <a class="icon" data-toggle="modal" data-target="#ForecastedModal" style="display: inline-block; position: relative; z-index: 10;">
                                                 <span class="glyphicon glyphicon-info-sign" style="display: inline-block; color: #29AFDF; font-size: 1.2em; top: -10px"></span>
                                             </a>
                                             -->
                                     </div>
-                                    <div class="col-lg-1">
-                                        <div class="ibox-tools">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
-                                            <button class="btn btn-sm btn-danger" data-placement="top">Select Symptom</button>
-                                            </a>
-                                            <ul class="dropdown-menu" id="symptomDD">
-                                                <li class="dropdown-item" href="#"><a>Feeding Issues</a></li>
-                                                <li class="dropdown-item" href="#"><a>Dehydration</a></li>
-                                                <li class="dropdown-item" href="#"><a>Difficulty Breathing </a></li>
-                                                <li class="dropdown-item" href="#"><a>Runny Nose</a></li>
-                                                <li class="dropdown-item" href="#"><a>Coughing</a></li>
-                                                <li class="dropdown-item" href="#"><a>Respiratory Noise</a></li>
-                                                <li class="dropdown-item" href="#"><a>Medical Intervention</a></li>
-                                                <li class="dropdown-item" href="#"><a>No Symptoms Logged</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div id="reportrange" class="form-control">
-                                            <i class="fa fa-calendar"></i>
-                                            <span></span> <b class="caret"></b>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <div class="row">
-                                            <h4 style="float: left; padding-right: 15px">Subject ID: </h4>
-                                            <div class="input-group">
-                                                <span class="input-group-btn"> 
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <div class="input-group">
-                                            <button class="btn btn-sm btn-danger" data-placement="top">Apply Filters</button>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="ibox-content" display="inline-block">
@@ -467,7 +366,7 @@
     var subjectid = 0
     doEverything()
 
-    $('#reportrange').daterangepicker({
+    $('.datePicker').daterangepicker({
         format: 'MM/DD/YYYY',
         startDate: '08/24/2016',
         minDate: '08/24/2016',
@@ -497,12 +396,17 @@
     }, function(start, end, label) {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     });
+    
     for(i = 0; i < subjectIDUnique.length; i++) {
-        $('#subjectid').append('<option value="'+subjectIDUnique[i]+'">'+subjectIDUnique[i]+'</option>')
+        $('#subjectidAAF').append('<option value="'+subjectIDUnique[i]+'">'+subjectIDUnique[i]+'</option>')
+        $('#subjectidSF').append('<option value="'+subjectIDUnique[i]+'">'+subjectIDUnique[i]+'</option>')
+        $('#subjectidSRF').append('<option value="'+subjectIDUnique[i]+'">'+subjectIDUnique[i]+'</option>')
+        $('#subjectidAF').append('<option value="'+subjectIDUnique[i]+'">'+subjectIDUnique[i]+'</option>')
     }
     var allSymptoms = getUniqueSymptomsFromFilter(master)
      for(i = 0; i < allSymptoms.length; i++) {
-        $('#symptomid').append('<option value="'+allSymptoms[i]+'">'+allSymptoms[i]+'</option>')
+        $('#symptomidSF').append('<option value="'+allSymptoms[i]+'">'+allSymptoms[i]+'</option>')
+        $('#symptomidSRF').append('<option value="'+allSymptoms[i]+'">'+allSymptoms[i]+'</option>')
     }
     $(document).ready(function () {
     $('.chosen-select').chosen({width: "100%"});

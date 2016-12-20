@@ -164,13 +164,15 @@ function countDistWhen(rows) {
 function getAppAccessData(master, useFilter) {
     var arr = master
     if (useFilter) {
-        var startDate = $('#reportrange').data('daterangepicker').startDate;
-        var endDate = $('#reportrange').data('daterangepicker').endDate;
+        var startDate = $('#reportrangeAAF').data('daterangepicker').startDate;
+        var endDate = $('#reportrangeAAF').data('daterangepicker').endDate;
         
         arr = filterByDate(startDate, endDate, arr)
         
-        var subjectID = document.getElementById("subID").value
-        if (subjectID) {
+        var subjectIDSelect = document.getElementById("subjectidAAF")
+        var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
+        
+        if (subjectID != 'All') {
             arr = filter(arr, "Subject ID", subjectID)
         }
     }
@@ -193,19 +195,42 @@ function getAppAccessData(master, useFilter) {
 
 
 function getSymptomFrequencyData(master, useFilter) {
-    if (useFilter) {
+    var arr = master
+     
+    if (useFilter) {      
+        var startDate = $('#reportrangeSF').data('daterangepicker').startDate;
+        var endDate = $('#reportrangeSF').data('daterangepicker').endDate;
+        
+        arr = filterByDate(startDate, endDate, arr)
+        
+        var subjectIDSelect = document.getElementById("subjectidSF")
+        var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
+        
+        console.log(subjectID)
+        
+        if (subjectID != 'All') {
+            arr = filter(arr, "Subject ID", subjectID)
+        }
+        
+        var symptomSelect = document.getElementById("symptomidSF")
+        var symptom = symptomSelect.options[symptomSelect.selectedIndex].text
+        
+        console.log(symptom)
+        
+        arr = filter(arr, "Question Text", symptom)
+        console.log(arr)
         
     }
+    else {
+        arr = filter(arr, "Question Text", "NO_SYMPTOMS_LOGGED")  
+    }
     
-    var start = filterByDate(new Date("2016/10/1"), new Date("2016/10/31"), master)
-    var symptomFilter = filter(master, "Question Text", "NO_SYMPTOMS_LOGGED")
-    
-    var uniqueDates = getUniqueDatesFromFilter(symptomFilter)
+    var uniqueDates = getUniqueDatesFromFilter(arr)
     
     var counts = []
     
     for (var i = 0; i < uniqueDates.length; i++) {
-        var rows = filter(symptomFilter, 'When String', uniqueDates[i])
+        var rows = filter(arr, 'When String', uniqueDates[i])
         var count = rows.length
         counts.push(count)
     }
@@ -243,13 +268,37 @@ function countDistResponse(rows) {
 
 
 function getSymptomResponseFrequencyData(master, useFilter) {
-    if (useFilter) {
+    var arr = master
+     
+    if (useFilter) {      
+        var startDate = $('#reportrangeSRF').data('daterangepicker').startDate;
+        var endDate = $('#reportrangeSRF').data('daterangepicker').endDate;
+        
+        arr = filterByDate(startDate, endDate, arr)
+        
+        var subjectIDSelect = document.getElementById("subjectidSRF")
+        var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
+        
+        console.log(subjectID)
+        
+        if (subjectID != 'All') {
+            arr = filter(arr, "Subject ID", subjectID)
+        }
+        
+        var symptomSelect = document.getElementById("symptomidSRF")
+        var symptom = symptomSelect.options[symptomSelect.selectedIndex].text
+        
+        console.log(symptom)
+        
+        arr = filter(arr, "Question Text", symptom)
+        console.log(arr)
         
     }
+    else {
+        arr = filter(arr, "Question Text", "COUGHING")  
+    }
     
-    var symptomFilter = filter(master, "Question Text", "COUGHING")
-    
-    responses = countDistResponse(symptomFilter)
+    responses = countDistResponse(arr)
     
     results = []
     results[0] = []
@@ -266,14 +315,27 @@ function getSymptomResponseFrequencyData(master, useFilter) {
 }
 
 function getAdhocData(master, useFilter) {
+    var arr = master
     if (useFilter) {
+        var startDate = $('#reportrangeAF').data('daterangepicker').startDate;
+        var endDate = $('#reportrangeAF').data('daterangepicker').endDate;
         
+        arr = filterByDate(startDate, endDate, arr)
+        
+        var subjectIDSelect = document.getElementById("subjectidAF")
+        var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
+        
+        if (subjectID != 'All') {
+            arr = filter(arr, "Subject ID", subjectID)
+        }
+    }
+    else {
+        arr = filter(master, "Subject ID", 001)
     }
     
     var applicableSymptoms = ["FEEDING_ISSUES", "DEHYDRATION", "DIFFICULTY_BREATHING", "RUNNY_NOSE", "COUGHING", "RESPIRATORY_NOISE"]
-    var userFilter = filter(master, "Subject ID", 007)
     
-    var uniqueDays = getUniqueDatesFromFilter(userFilter)
+    var uniqueDays = getUniqueDatesFromFilter(arr)
     
     results = []
     results[0] = []
@@ -283,7 +345,7 @@ function getAdhocData(master, useFilter) {
     for (var i = 0; i < uniqueDays.length; i++) {
         s = 0
         
-        rows = filter(userFilter, "When String", uniqueDays[i])
+        rows = filter(arr, "When String", uniqueDays[i])
         
         for (var j = 0; j < rows.length; j++) {
             if (applicableSymptoms.contains(rows[j]['Question Text'])) {
@@ -393,7 +455,7 @@ function test(useFilter) {
             rescale: true
         },
         legend: {
-            position: 'right'
+            show: false,
         }
     });
     
@@ -551,7 +613,7 @@ function test4(useFilter) {
             type: 'bar'
         },
         subchart: {
-            show: true
+            show: false,
         },
         axis: {
             x: {
@@ -581,7 +643,7 @@ function test4(useFilter) {
             rescale: true
         },
         legend: {
-            position: 'right'
+            show: false,
         }
     });
     
