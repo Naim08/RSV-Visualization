@@ -174,7 +174,7 @@ function getAppAccessData(master, useFilter) {
 
         console.log(endDate)
         
-        document.getElementById("dateAAF").innerHTML = startDate._d.toLocaleDateString() + " - " + endDate._d.toLocaleDateString()
+        document.getElementById("dateAAF").innerHTML = startDate.format('M/D/YYYY') + ' - ' + endDate.format('M/D/YYYY')
 
         $('#reportrangeAAF span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
 
@@ -220,7 +220,7 @@ function getSymptomFrequencyData(master, useFilter) {
         
         arr = filterByDate(startDate, endDate, arr)
         
-        document.getElementById("dateSF").innerHTML = startDate._d.toLocaleDateString() + " - " + endDate._d.toLocaleDateString()
+        document.getElementById("dateSF").innerHTML = startDate.format('M/D/YYYY') + ' - ' + endDate.format('M/D/YYYY')
         
         var subjectIDSelect = document.getElementById("subjectidSF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
@@ -242,7 +242,15 @@ function getSymptomFrequencyData(master, useFilter) {
             selected.push($(this).val());
         });
         
-        document.getElementById("sympSF").innerHTML = symptom
+        if (selected.length == 0) {
+            document.getElementById("sympSF").innerHTML = "All"
+        }
+        else if (selected.length > 3) {
+            document.getElementById("sympSF").innerHTML = "4+ (See Data Filters Box)"
+        }
+        else{
+            document.getElementById("sympSF").innerHTML = selected.toString()
+        }
         
         
         if (selected.length != 0) {
@@ -314,7 +322,7 @@ function getSymptomResponseFrequencyData(master, useFilter) {
         
         arr = filterByDate(startDate, endDate, arr)
         
-        document.getElementById("dateSRF").innerHTML = startDate._d.toLocaleDateString() + " - " + endDate._d.toLocaleDateString()
+        document.getElementById("dateSRF").innerHTML = startDate.format('M/D/YYYY') + ' - ' + endDate.format('M/D/YYYY')
         
         var subjectIDSelect = document.getElementById("subjectidSRF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
@@ -368,7 +376,7 @@ function getAdhocData(master, useFilter) {
         
         arr = filterByDate(startDate, endDate, arr)
         
-        document.getElementById("dateAF").innerHTML = startDate._d.toLocaleDateString() + " - " + endDate._d.toLocaleDateString()
+        document.getElementById("dateAF").innerHTML = startDate.format('M/D/YYYY') + ' - ' + endDate.format('M/D/YYYY')
         
         var subjectIDSelect = document.getElementById("subjectidAF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
