@@ -580,7 +580,7 @@ function sf(useFilter) {
 }
 
 
-function srf(useFilter) {
+function af(useFilter) {
     adHocData = getAdhocData(master, useFilter)
     
     dates = adHocData[0]
@@ -648,7 +648,7 @@ function srf(useFilter) {
     
 }
 
-function af(useFilter) {
+function srf(useFilter) {
     
     var symptomResponseFrequencyData = getSymptomResponseFrequencyData(master, useFilter)
     
