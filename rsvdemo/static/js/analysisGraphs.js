@@ -65,10 +65,10 @@ var whenUnique = when.unique()
 
 
 function doEverything() {
-    test(false)
-    test2(false)
-    test3(false)
-    test4(false)
+    aaf(false)
+    sf(false)
+    srf(false)
+    af(false)
 }
 
 
@@ -399,7 +399,7 @@ function changeTab(element, graphContainer) {
 }
 
 
-function test(useFilter) {    
+function aaf(useFilter) {    
     var appAccessData = getAppAccessData(master, useFilter)
     
     appAccessData[1].unshift("Count")
@@ -461,7 +461,7 @@ function test(useFilter) {
 
 }
 
-function test2(useFilter) {
+function sf(useFilter) {
     var symptomFrequencyData = getSymptomFrequencyData(master, useFilter)
     
     var when = symptomFrequencyData[0]
@@ -518,7 +518,7 @@ function test2(useFilter) {
 }
 
 
-function test3(useFilter) {
+function srf(useFilter) {
     adHocData = getAdhocData(master, useFilter)
     
     dates = adHocData[0]
@@ -586,7 +586,7 @@ function test3(useFilter) {
     
 }
 
-function test4(useFilter) {
+function af(useFilter) {
     
     var symptomResponseFrequencyData = getSymptomResponseFrequencyData(master, useFilter)
     
