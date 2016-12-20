@@ -408,7 +408,8 @@ function test2(subjectIDUnique, whenUnique) {
             colors: {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
-            }
+            },
+            type: 'spline'
         },
         subchart: {
             show: true
@@ -449,7 +450,7 @@ function test2(subjectIDUnique, whenUnique) {
 
 }
 
-function test3() {
+function test3(when) {
     adHocData = getAdhocData(master)
     
     dates = adHocData[0]
@@ -468,7 +469,8 @@ function test3() {
             colors: {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
-            }
+            },
+            type: 'line'
         },
         subchart: {
             show: true
@@ -494,6 +496,13 @@ function test3() {
                     position: 'outer-middle'
 
                 }
+            }
+        },
+        grid: {
+        y: {
+            lines: [
+                {value: 6, text: 'Severity Sum  = 6'},
+                ]
             }
         },
         zoom: {
