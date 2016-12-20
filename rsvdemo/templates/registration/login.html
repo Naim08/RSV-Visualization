@@ -1,8 +1,28 @@
-{% extends 'registration/base.html' %}
+{% extends 'layout.html' %}
 
 
-{% block content %}
-    {% if form.errors %}
+{% block body %}
+<style type="text/css">
+    body {
+        background-color: #d62d20;
+    }
+    form {padding: 50px;margin-top: 30px;width: 500px;background-color: white;height: 520px;border-radius: 5px;}
+</style>
+{% load static %}
+
+ <div class="middle-box text-center  animated fadeInDown">
+        <div>
+            
+           
+            
+            <form method="post" action="{% url 'login' %}" style="">
+            <div>
+
+                <h1 class="logo-name"><img src="{% static '/img/janssen-logo.png' %}" alt="ITAS Logo"  style="width:400px;"></h1>
+
+            </div>
+             <h2>Welcome to RSV Demo</h2>
+                {% if form.errors %}
 
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -14,55 +34,31 @@
     please login with an account that has access.</p>
     {% else %}
 
-<p>Please login to see this page.</p>
+<p>Login in. To see it in action.</p>
     {% endif %}
 {% endif %}
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <div class="login-panel panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Please Sign In</h3>
-                </div>
-                <div class="panel-body">
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-
-                        <p class="bs-component">
-                            <table>
-                                <tr>
-                                    <td>{{ form.username.label_tag }}</td>
-                                    <td>{{ form.username }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ form.password.label_tag }}</td>
-                                    <td>{{ form.password }}</td>
-                                </tr>
-                            </table>
+            {% csrf_token %}
+                <div class="form-group">
+                    <p class="bs-component">
+                           
+                                <div class="form-group">
+                                    {{ form.username.label_tag }}&nbsp;
+                                    {{ form.username }}
+                                </div>
+                                
+                                <div class="form-group">
+                                    {{ form.password.label_tag }}&nbsp;
+                                    {{ form.password }}
+                                </div>
+                                
                         </p>
-                        <p class="bs-component">
-                            <center>
-                                <input class="btn btn-success btn-sm" type="submit" value="login" />
-                            </center>
-                        </p>
-                        <input type="hidden" name="next" value="{{ next }}" />
-                    </form>
-                </div>
-            </div>
+                <button type="submit" class="btn-lg btn-primary block full-width m-b" value="login">Login</button>
+                 <input type="hidden" name="next" value="{{ next }}" />
+
+               
+            </form>
+            
         </div>
     </div>
-</div>
-
-{% endblock %}
-
-{% block javascript %}
-
-
-<script>
-{% if not user.is_authenticated %}
-$("ul.nav.navbar-nav.navbar-right").css("display","none");
-{% endif %}
-</script>
 
 {% endblock %}
