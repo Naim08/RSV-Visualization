@@ -26,8 +26,7 @@ Array.prototype.unique = function() {
 
 var charts = []
 
-
-rsvfile = JSON.parse(resultJSON);
+rsvfile = JSON.parse(data);
 
 var subjectID = []
 subjectID.push.apply(subjectID, rsvfile['Subject ID'])
@@ -67,9 +66,9 @@ var whenUnique = when.unique()
 
 function doEverything() {
     test(false)
-    test2()
-    test3()
-    test4()
+    test2(false)
+    test3(false)
+    test4(false)
 }
 
 
@@ -98,7 +97,7 @@ function makeJSON(data) {
     return obs
 }
 
-master = makeJSON(data)
+master = makeJSON(rsvfile)
 
 
 function getUniqueIDsFromFilter(filter) {
@@ -162,16 +161,15 @@ function countDistWhen(rows) {
     return Object.keys(d).length
 }
 
-function getAppAccessData(master, f) {
+function getAppAccessData(master, useFilter) {
     var arr = master
-    if (f) {
+    if (useFilter) {
         var startDate = $('#reportrange').data('daterangepicker').startDate;
         var endDate = $('#reportrange').data('daterangepicker').endDate;
         
         arr = filterByDate(startDate, endDate, arr)
         
         var subjectID = document.getElementById("subID").value
-        
         if (subjectID) {
             arr = filter(arr, "Subject ID", subjectID)
         }
@@ -194,7 +192,11 @@ function getAppAccessData(master, f) {
 }
 
 
-function getSymptomFrequencyData(master, symptom) {
+function getSymptomFrequencyData(master, useFilter) {
+    if (useFilter) {
+        
+    }
+    
     var start = filterByDate(new Date("2016/10/1"), new Date("2016/10/31"), master)
     var symptomFilter = filter(master, "Question Text", "NO_SYMPTOMS_LOGGED")
     
@@ -240,7 +242,11 @@ function countDistResponse(rows) {
 }
 
 
-function getSymptomResponseFrequencyData(master) {
+function getSymptomResponseFrequencyData(master, useFilter) {
+    if (useFilter) {
+        
+    }
+    
     var symptomFilter = filter(master, "Question Text", "COUGHING")
     
     responses = countDistResponse(symptomFilter)
@@ -259,7 +265,11 @@ function getSymptomResponseFrequencyData(master) {
     return results
 }
 
-function getAdhocData(master) {
+function getAdhocData(master, useFilter) {
+    if (useFilter) {
+        
+    }
+    
     var applicableSymptoms = ["FEEDING_ISSUES", "DEHYDRATION", "DIFFICULTY_BREATHING", "RUNNY_NOSE", "COUGHING", "RESPIRATORY_NOISE"]
     var userFilter = filter(master, "Subject ID", 007)
     
@@ -329,8 +339,8 @@ function changeTab(element, graphContainer) {
 }
 
 
-function test(filter) {    
-    var appAccessData = getAppAccessData(master, filter)
+function test(useFilter) {    
+    var appAccessData = getAppAccessData(master, useFilter)
     
     appAccessData[1].unshift("Count")
     
@@ -391,8 +401,8 @@ function test(filter) {
 
 }
 
-function test2(subjectIDUnique, whenUnique) {
-    var symptomFrequencyData = getSymptomFrequencyData(master, "NO_SYMPTOMS_LOGGED")
+function test2(useFilter) {
+    var symptomFrequencyData = getSymptomFrequencyData(master, useFilter)
     symptomFrequencyData[1].unshift("Count")
     
     var when = symptomFrequencyData[0]
@@ -450,8 +460,9 @@ function test2(subjectIDUnique, whenUnique) {
 
 }
 
-function test3(when) {
-    adHocData = getAdhocData(master)
+
+function test3(useFilter) {
+    adHocData = getAdhocData(master, useFilter)
     
     dates = adHocData[0]
     sums = adHocData[1]
@@ -518,9 +529,9 @@ function test3(when) {
     
 }
 
-function test4() {
+function test4(useFilter) {
     
-    var symptomResponseFrequencyData = getSymptomResponseFrequencyData(master)
+    var symptomResponseFrequencyData = getSymptomResponseFrequencyData(master, useFilter)
     
     var responseIDs = symptomResponseFrequencyData[0]
     var counts = symptomResponseFrequencyData[1]
