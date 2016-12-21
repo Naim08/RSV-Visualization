@@ -73,14 +73,15 @@ def prepareData(request):
             localdata = copy.copy(cachedata)
             
             print(sys.platform)
-#            if sys.platform.startswith('win'):
-#                path = r'./media/media/phantomjs-2.1.1-windows/bin/phantomjs.exe'
-#                driver = webdriver.PhantomJS()
-#            else:
-#                path = os.getcwd() + '/media/phantomjs-2.1.1-macosx/bin/phantomjs'
-#                driver = webdriver.PhantomJS(executable_path=path)
+            if sys.platform.startswith('win'):
+                driver = webdriver.PhantomJS()
+            elif sys.platform.startswith('dar'):
+                path = os.getcwd() + '/media/phantomjs-2.1.1-macosx/bin/phantomjs'
+                driver = webdriver.PhantomJS(executable_path=path)
+            else:
+                path = os.getcwd() + 'media/phantomjslinux'
+                driver = webdriver.PhantomJS(executable_path=path)
 
-            driver = webdriver.PhantomJS()
                 
             
             driver.set_window_size(1500, 1200)
