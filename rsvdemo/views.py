@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 import xlsxwriter
 from selenium import webdriver
+import sys
 
 #achive folder to zipfiles
 def zipdir(path, ziph):
@@ -70,8 +71,18 @@ def prepareData(request):
             cachedata = request.GET['storagecache']
             cachedata = json.loads(cachedata)
             localdata = copy.copy(cachedata)
-            path = os.getcwd() + '/media/phantomjs-2.1.1-macosx/bin/phantomjs'
-            driver = webdriver.PhantomJS(executable_path=path)
+            
+            print(sys.platform)
+#            if sys.platform.startswith('win'):
+#                path = r'./media/media/phantomjs-2.1.1-windows/bin/phantomjs.exe'
+#                driver = webdriver.PhantomJS()
+#            else:
+#                path = os.getcwd() + '/media/phantomjs-2.1.1-macosx/bin/phantomjs'
+#                driver = webdriver.PhantomJS(executable_path=path)
+
+            driver = webdriver.PhantomJS()
+                
+            
             driver.set_window_size(1500, 1200)
             driver.get('http://localhost:8000/rsvdemo/generateGraph/')
             driver.save_screenshot(os.getcwd() + '/media/rsvfiles/website.png')
