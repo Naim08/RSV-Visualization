@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 import xlsxwriter
 from selenium import webdriver
 import sys
+from wsgiref.util import FileWrapper
 
 #achive folder to zipfiles
 def zipdir(path, ziph):
@@ -57,10 +58,10 @@ def download(request):
     print path
     #this should live elsewhere, definitely
     if os.path.exists(path):
+        zip_file = FileWrapper(file(path))
 
-        zip_file = open(path, 'r')
 
-        response = HttpResponse(zip_file,content_type='application/force-download')
+        response = HttpResponse(zip_file,content_type='application/x-gzip')
         response['Content-Disposition'] = 'attachment; filename='+'zipfile.tar.gz'
         return response    
 def prepareData(request):
