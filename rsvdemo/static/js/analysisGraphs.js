@@ -653,7 +653,7 @@ function af(useFilter) {
             rescale: true
         },
         legend: {
-            position: 'right'
+            show: false,
         }
     });
     
