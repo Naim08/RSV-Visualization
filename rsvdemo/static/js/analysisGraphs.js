@@ -681,7 +681,7 @@ function af(useFilter) {
             },
             y: {
                 label: {
-                    text: "Sum",
+                    text: "Severity Total",
                     position: 'outer-middle'
 
                 }
@@ -690,7 +690,8 @@ function af(useFilter) {
         grid: {
         y: {
             lines: [
-                {value: 6, text: 'Severity Sum  = 6'},
+                {value: 6, text: 'METHOD 1:   Severity Sum  = 6'},
+                {value: 3, text: 'METHOD 2:   Severity = 3'},
                 ]
             }
         },
@@ -699,7 +700,8 @@ function af(useFilter) {
             rescale: true
         },
         legend: {
-            position: 'right'
+//            show: false,
+            position: 'right',
         }
     });
     

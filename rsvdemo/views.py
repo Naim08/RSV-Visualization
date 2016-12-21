@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 import xlsxwriter
 from selenium import webdriver
 import sys
+from wsgiref.util import FileWrapper
 
 #achive folder to zipfiles
 def zipdir(path, ziph):
@@ -54,13 +55,10 @@ def index(request):
 
 def download(request):
     path = os.getcwd() + '/zipfile.tar.gz'
-    print path
     #this should live elsewhere, definitely
     if os.path.exists(path):
-
-        zip_file = open(path, 'r')
-
-        response = HttpResponse(zip_file,content_type='application/force-download')
+        response = HttpResponse(FileWrapper(open(path, 'rb')),  # notice extra 'rb'
+                           content_type=mimetypes.guess_type(path)[0])
         response['Content-Disposition'] = 'attachment; filename='+'zipfile.tar.gz'
         return response    
 def prepareData(request):
@@ -78,8 +76,7 @@ def prepareData(request):
                 path = os.getcwd() + '/media/phantomjs-2.1.1-macosx/bin/phantomjs'
                 driver = webdriver.PhantomJS(executable_path=path)
             else:
-                path = os.getcwd() + 'media/phantomjslinux'
-                driver = webdriver.PhantomJS(executable_path=path)
+                driver = webdriver.PhantomJS()
 
                 
             
