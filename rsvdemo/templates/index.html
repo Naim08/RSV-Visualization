@@ -16,9 +16,10 @@
             <div class="col-lg-6 text-right" style="text-align: center">
                 <h1> RSV Watch Data Visualization</h1>
             </div>
-            <div class="col-lg-3 text-right" style="padding-right: 5px">
-                <button class="btn btn-lg btn-danger step6" id="preparedownload"><a style="color: white; text-align: center;" meta-data=storagecache><i class="fa fa-cloud-download"></i> Download User Data</a></button>
+            <div class="col-lg-3 text-right" id="saveme"style="padding-right: 5px">
+                <button class="btn btn-lg btn-danger step6" id="preparedownload"><a style="color: white; text-align: center;" id="downloadtext" meta-data=storagecache><i class="fa fa-cloud-download"></i> Download User Data</a></button> 
             </div>
+            <a style="color: white; text-align: center;" id="finishdownload" href="/rsvdemo/download"></a>
         </div>
         <input type="hidden" id=rsvdata value="{{rsvfile}}">
         <div class="wrapper wrapper-content" style="padding-top: 0px; padding-left: 0; padding-right: 0;">
@@ -365,7 +366,7 @@
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript">
-$('body').append('<div id="generateGraph" style="height: 2200px; background-color: whitesmoke; padding-top: 50px; padding: 40px 30px 40px; display: none;"><div id="chart1data"></div><div id="chart2data" class="" ></div><div id="chart3data"></div><div id="chart4data"></div></div>');
+$('body').append('<div id="generateGraph" style="height: 2200px; background-color: whitesmoke; padding-top: 50px; padding: 40px 30px 40px; display: none;"><div id="chart1data" style="display:none;"></div><div id="chart2data" style="display:none;" class="" ></div><div id="chart3data" style="display:none;"></div><div id="chart4data" style="display:none;"></div></div>');
     var subjectid = 0
     doEverything()
 
@@ -418,6 +419,8 @@ $('body').append('<div id="generateGraph" style="height: 2200px; background-colo
        subjectid = $('.chosen-single span')[0].innerHTML
     });
             $( "#preparedownload" ).click(function() {
+                $("#downloadtext").remove();
+                 $("#preparedownload").append('<div class="sk-spinner sk-spinner-three-bounce"><div class="sk-bounce1"></div><div class="sk-bounce2"></div><div class="sk-bounce3"></div></div>');
                 $('#generateGraph').show();
                 $('#chart1graph').clone().appendTo( "#chart1data" );
                 $('#chart2graph').clone().appendTo( "#chart2data" );
@@ -435,8 +438,20 @@ $('body').append('<div id="generateGraph" style="height: 2200px; background-colo
                 }
                 $.getJSON('/rsvdemo/prepareData/', {'storagecache': JSON.stringify(storagecache)}, function(data){
                        
-                    });
+                     });
+                 $("#finishdownload").click();
            graphAsyc();
+           function test() {
+                $(".sk-spinner").remove()
+                $("#preparedownload").remove();
+                $("#saveme").append('<button class="btn btn-lg btn-danger"><a style="color: white; text-align: center;" id="finishdownload" href="/rsvdemo/download">Download File</a></button');
+                    
+           }
+          
+            setTimeout(test, 4000);
+           
+
+             
             });
 
     //tour stuff
