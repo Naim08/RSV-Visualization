@@ -79,8 +79,7 @@ def prepareData(request):
                 path = os.getcwd() + '/media/phantomjs-2.1.1-macosx/bin/phantomjs'
                 driver = webdriver.PhantomJS(executable_path=path)
             else:
-                path = os.getcwd() + 'media/phantomjslinux'
-                driver = webdriver.PhantomJS(executable_path=path)
+                driver = webdriver.PhantomJS()
 
                 
             
