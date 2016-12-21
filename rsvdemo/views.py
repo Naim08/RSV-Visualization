@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import os
 import pandas as pd
-import json, csv, copy
+import json, csv, copy, mimetypes
 from shutil import make_archive
 import datetime
 # Create your views here.
