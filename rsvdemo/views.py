@@ -74,9 +74,13 @@ def prepareData(request):
             print(sys.platform)
             if sys.platform.startswith('win'):
                 driver = webdriver.PhantomJS()
-            else:
+            elif sys.platform.startswith('dar'):
                 path = os.getcwd() + '/media/phantomjs-2.1.1-macosx/bin/phantomjs'
                 driver = webdriver.PhantomJS(executable_path=path)
+            else:
+                path = r'/root/RSV-Visualization/media/phantomjslinux'
+                driver = webdriver.PhantomJS(executable_path=path)
+
                 
             
             driver.set_window_size(1500, 1200)
