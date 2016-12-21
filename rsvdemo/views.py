@@ -55,13 +55,10 @@ def index(request):
 
 def download(request):
     path = os.getcwd() + '/zipfile.tar.gz'
-    print path
     #this should live elsewhere, definitely
     if os.path.exists(path):
-        zip_file = FileWrapper(file(path))
-
-
-        response = HttpResponse(zip_file,content_type='application/x-gzip')
+        response = HttpResponse(FileWrapper(open(path, 'rb')),  # notice extra 'rb'
+                           content_type=mimetypes.guess_type(path)[0])
         response['Content-Disposition'] = 'attachment; filename='+'zipfile.tar.gz'
         return response    
 def prepareData(request):
