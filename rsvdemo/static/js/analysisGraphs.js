@@ -490,7 +490,8 @@ function aaf(useFilter) {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
             },
-            type: 'bar'
+            type: 'bar',
+            labels: true
         },
         subchart: {
             show: true
@@ -548,7 +549,8 @@ function sf(useFilter) {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
             },
-            type: 'spline'
+            type: 'spline',
+//            labels: true
         },
         subchart: {
             show: true
@@ -610,7 +612,8 @@ function af(useFilter) {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
             },
-            type: 'line'
+            type: 'line',
+            labels: true
         },
         subchart: {
             show: true
@@ -677,7 +680,8 @@ function srf(useFilter) {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
             },
-            type: 'bar'
+            type: 'bar',
+            labels: true
         },
         subchart: {
             show: false,

@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% block title %}RSV Demo{% endblock %}
+{% block title %}RSV POC{% endblock %}
 
 {% block body %}{% load static %}
 <div id="wrapper">
@@ -220,7 +220,7 @@
                                         <div class="col-lg-2 text-center" style="text-align: -webkit-center; padding-top:15px;">
 
                                             <div class="input-group text-center">
-                                              <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="srf(true)">Apply Filters</span>
+                                              <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="af(true)">Apply Filters</span>
                                             </div>
 
                                        </div>
@@ -303,7 +303,7 @@
                                         <div class="col-lg-2 text-center" style="text-align: -webkit-center; padding-top:15px;">
 
                                             <div class="input-group text-center">
-                                              <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="af(true)">Apply Filters</span>
+                                              <span class="btn btn-lg btn-danger  text-center" data-placement="top" onclick="srf(true)">Apply Filters</span>
                                             </div>
 
                                        </div>
@@ -343,7 +343,7 @@
                 
     </div>
         <div class="col-lg-11 text-right" style="text-align: right; padding-top:8px">
-                <h3> Powered by datalabs</h3>
+                <h3> Crafted by datalabs</h3>
         </div>
         <div class="col-lg-1 text-left" style="padding-left: 5px">
             <img src="{% static '/img/logo_icon.png' %}" alt="DataLABS Logo"  style="width:40px;">
