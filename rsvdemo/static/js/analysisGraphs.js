@@ -714,6 +714,11 @@ function srf(useFilter) {
     var symptomResponseFrequencyData = getSymptomResponseFrequencyData(master, useFilter)
     
     var responseIDs = symptomResponseFrequencyData[0]
+    
+    for (var i = 0; i < responseIDs.length; i++) {
+        responseIDs[i] -= 1
+    }
+    
     var counts = symptomResponseFrequencyData[1]
     storagecache['Response Frequency']['responseIDs'] = responseIDs
     storagecache['Response Frequency']['count'] = counts
