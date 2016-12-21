@@ -1,7 +1,8 @@
 from django.shortcuts import render
 import os
 import pandas as pd
-import json, csv, copy, zipfile
+import json, csv, copy
+from shutil import make_archive
 import datetime
 # Create your views here.
 from django.http import HttpResponse
@@ -12,9 +13,7 @@ from selenium import webdriver
 #achive folder to zipfiles
 def zipdir(path, ziph):
     # ziph is zipfile handle
-    for root, dirs, files in os.walk(path):
-        for file in files:
-            ziph.write(os.path.join(root, file))
+    make_archive('zipfile', 'gztar', 'media/rsvfiles')
 
 #creating a stupid global variable. I hope someone forgives me@@
 cachedata = ''
@@ -180,9 +179,7 @@ def prepareData(request):
             worksheet2.insert_chart('Q2', chart2, {'x_offset': 50, 'y_offset': 10})
 
             workbook.close()
-            zipf = zipfile.ZipFile('rsvfiles.zip', 'w', zipfile.ZIP_DEFLATED)
-            zipdir(os.getcwd() + '/media/rsvfiles/', zipf)
-            zipf.close()
+            make_archive('zipfile', 'gztar', 'media/rsvfiles')
     return HttpResponse(cachedata)  
 def generateGraph(request):
 
