@@ -176,8 +176,6 @@ function getAppAccessData(master, useFilter) {
     if (useFilter) {
         var startDate = $('#reportrangeAAF').data('daterangepicker').startDate;
         var endDate = $('#reportrangeAAF').data('daterangepicker').endDate;
-
-        console.log(endDate)
         
         document.getElementById("dateAAF").innerHTML = startDate.format('M/D/YYYY') + ' - ' + endDate.format('M/D/YYYY')
 
@@ -186,14 +184,11 @@ function getAppAccessData(master, useFilter) {
         
         arr = filterByDate(startDate, endDate, arr)
         
-        var subjectIDSelect = document.getElementById("subjectidAAF")
-        var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
-        
-        document.getElementById("userAAF").innerHTML = subjectID
-        
-        if (subjectID != 'All') {
-            arr = filter(arr, "Subject ID", subjectID)
-        }
+        var userID = $("#subjectidAAF option:selected")
+        var selected = []
+        $(userID).each(function(index, brand){
+            selected.push($(this).val());
+        });
     }
     
     var counts = []
@@ -209,6 +204,32 @@ function getAppAccessData(master, useFilter) {
     results[0] = uniqueIDs
     results[1] = counts
     
+    if (useFilter) {
+        if (selected.length == 0) {
+            document.getElementById("userAAF").innerHTML = 'All'
+        }
+        else {
+            if (selected.length > 5) {
+                document.getElementById("userAAF").innerHTML = '6+ (See Data Filters Box)'
+            }   
+            else {
+                document.getElementById("userAAF").innerHTML = selected.toString()
+            }
+            
+            var r = []
+            r[0] = []
+            r[1] = []
+            
+            for (var i = 0; i < results[0].length; i++) {
+                if (selected.contains(results[0][i])) {
+                    r[0].push(results[0][i])
+                    r[1].push(results[1][i])
+                }
+            }
+            
+            return r
+        }
+    }
     return results
 }
 
@@ -229,9 +250,6 @@ function getSymptomFrequencyData(master, useFilter) {
         
         var subjectIDSelect = document.getElementById("subjectidSF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
-        
-
-        console.log(subjectID)
         
         document.getElementById("userSF").innerHTML = subjectID
         
@@ -260,10 +278,7 @@ function getSymptomFrequencyData(master, useFilter) {
         
         if (selected.length != 0) {
             symptomsToGraph = selected
-        }
-        
-        console.log(arr)
-        
+        }        
     }
 
     
@@ -342,14 +357,9 @@ function getSymptomResponseFrequencyData(master, useFilter) {
         var symptomSelect = document.getElementById("symptomidSRF")
         var symptom = symptomSelect.options[symptomSelect.selectedIndex].text
         
-        console.log(symptom)
-        
         document.getElementById("sympSRF").innerHTML = symptom
         
         arr = filter(arr, "Question Text", symptom)
-        console.log(arr)
-        
-
     }
     else {
         arr = filter(arr, "Question Text", "COUGHING")  
@@ -652,7 +662,7 @@ function af(useFilter) {
             rescale: true
         },
         legend: {
-            position: 'right'
+            show: false,
         }
     });
     
