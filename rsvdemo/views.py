@@ -1,13 +1,18 @@
 from django.shortcuts import render
 import os
 import pandas as pd
-import json, csv
+import json, csv, copy
 import datetime
 # Create your views here.
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 import xlsxwriter
+from selenium import webdriver
 
+
+
+#creating a stupid global variable. I hope someone forgives me@@
+cachedata = ''
 # Create your views here.
 # this login required decorator is to not allow to any  
 # view without authenticating
@@ -52,39 +57,110 @@ def download(request):
         response['Content-Disposition'] = 'attachment; filename='+'output' + datetime.datetime.now().strftime('%m-%d-%Y-T-%H-%M-%S') + '.csv'
         return response    
 def prepareData(request):
-    cachedata = ''
+    global cachedata
     if request.method == 'GET':
         if 'storagecache' in request.GET:
             cachedata = request.GET['storagecache']
             cachedata = json.loads(cachedata)
-            print('Cache value:')
-            print(cachedata)
-            path = os.getcwd() + '/media/testsheet.xlsx'
-            workbook = xlsxwriter.Workbook(path)
-            worksheet = workbook.add_worksheet()
+            localdata = copy.copy(cachedata)
+            path = os.getcwd() + '/media/phantomjs-2.1.1-macosx/bin/phantomjs'
+            driver = webdriver.PhantomJS(executable_path=path)
+            driver.set_window_size(1500, 1200)
+            driver.get('http://localhost:8000/rsvdemo/generateGraph/')
+            driver.save_screenshot(os.getcwd() + '/media/website.png')
+            driver.quit()
+            mediapath = os.getcwd() + '/media/filtersheet.xlsx'
+            workbook = xlsxwriter.Workbook(mediapath)
+            aaf = 'Application Access Frequency'
+            sf = 'Symptom Frequency'
+            srf = 'Response Frequency'
+            aqf = 'Adhoc Query Frequency'
+            worksheet = workbook.add_worksheet(aaf)
+            worksheet2 = workbook.add_worksheet(sf)
+            worksheet3 = workbook.add_worksheet(aqf)
+            worksheet4 = workbook.add_worksheet(srf)
             bold = workbook.add_format({'bold': 1})
-            headings = ['userid', 'counts']
-            worksheet.write_row('A1', headings, bold)
-            del cachedata['Application Access Frequency']['count'][0]
-            worksheet.write_column('A2', cachedata['Application Access Frequency']['userid'])
-            worksheet.write_column('B2', cachedata['Application Access Frequency']['count'])
+            sfHeaders = []
+            sfHeaders.append('Dates')
+            for i in localdata[sf]['count']:
+                sfHeaders.append(i[0])
+                del i[0]   
+            worksheet.write_row('A1', ['userid', 'Count'], bold)
+            worksheet2.write_row('A1', sfHeaders, bold)
+            worksheet3.write_row('A1', ['Date', 'Sum'], bold)
+            worksheet4.write_row('A1', ['Response ID', 'Count'], bold)
 
+            del localdata['Application Access Frequency']['count'][0]
+            del localdata[aqf]['sums'][0]
+            del localdata[srf]['count'][0]
+
+            #worksheet 1
+            worksheet.write_column('A2', localdata['Application Access Frequency']['userid'])
+            worksheet.write_column('B2', localdata['Application Access Frequency']['count'])
+
+            #worksheet 2
+            worksheet2.write_column('A2', localdata[sf]['dates'])
+            for colnum in range(0, len(localdata[sf]['count'])):
+                for row in range(0,len(localdata[sf]['count'][colnum])):
+                    print localdata[sf]['count'][colnum][row]
+                    worksheet2.write(row+1, colnum+1, localdata[sf]['count'][colnum][row])
+
+            #worksheet 3
+            worksheet3.write_column('A2', localdata[aqf]['dates'])
+            worksheet3.write_column('B2', localdata[aqf]['sums'])
+            #shortsheet 4
+            worksheet4.write_column('A2', localdata[srf]['responseIDs'])
+            worksheet4.write_column('B2', localdata[srf]['count'])
+
+            #init each new graph
             chart1 = workbook.add_chart({'type': 'column'})
+            chart3 = workbook.add_chart({'type': 'line'})
+            chart4 = workbook.add_chart({'type': 'column'})
+
+            #add series data
             chart1.add_series({
-                'categories': '=Sheet1!$A$2:$A$'+str(len(cachedata['Application Access Frequency']['userid'])+1),
-                'values':     '=Sheet1!$B$2:$B$'+str(len(cachedata['Application Access Frequency']['count'])+1),
-                'gap':        500,
+                'categories': '='+aaf+'!$A$2:$A$'+str(len(localdata['Application Access Frequency']['userid'])+1), #x value
+                'values':     '='+aaf+'!$B$2:$B$'+str(len(localdata['Application Access Frequency']['count'])+1), #y values
+                'gap':        500, #gap?
                 })
+            chart4.add_series({
+                'categories': '='+srf+'!$A$2:$A$'+str(len(localdata[srf]['responseIDs'])+1), #x value
+                'values':     '='+srf+'!$B$2:$B$'+str(len(localdata[srf]['count'])+1), #y values
+                'gap':        500, #gap?
+                })
+            chart3.add_series({
+                'categories': '='+aqf+'!$A$2:$A$'+str(len(localdata[aqf]['dates'])+1), #x value
+                'values':     '='+aqf+'!$B$2:$B$'+str(len(localdata[aqf]['sums'])+1), #y values
+                'gap':        500, #gap?
+                })
+            chart4.set_title ({'name': srf})
+            chart4.set_x_axis({'name': 'Response ID'})
+            chart4.set_y_axis({'name': 'Count'})
+            chart4.set_size({'x_scale': .5*len(localdata[srf]['responseIDs']), 'y_scale': 3})
+
+            chart3.set_title ({'name': aqf})
+            chart3.set_x_axis({'name': 'Dates'})
+            chart3.set_y_axis({'name': 'Sums'})
+            chart3.set_size({'x_scale': .2*len(localdata[aqf]['dates']), 'y_scale': 3})
+
             chart1.set_title ({'name': 'Application Access Frequency'})
             chart1.set_x_axis({'name': 'User ID'})
             chart1.set_y_axis({'name': 'Count'})
-            chart1.set_size({'x_scale': .12*len(cachedata['Application Access Frequency']['userid']), 'y_scale': 3})
+            chart1.set_size({'x_scale': .12*len(localdata['Application Access Frequency']['userid']), 'y_scale': 3})
             # Set an Excel chart style.
             chart1.set_style(11)
+            chart4.set_style(11)
+            chart3.set_style(11)
 
             # Insert the chart into the worksheet (with an offset).
             worksheet.insert_chart('D2', chart1, {'x_offset': 50, 'y_offset': 10})
+            worksheet4.insert_chart('D2', chart4, {'x_offset': 50, 'y_offset': 10})
+            worksheet3.insert_chart('D2', chart3, {'x_offset': 50, 'y_offset': 10})
 
             workbook.close()
             data_start_loc = [0, 0] # xlsxwriter rquires list, no tuple
-    return HttpResponse(cachedata)   
+    return HttpResponse(cachedata)  
+def generateGraph(request):
+
+    print(cachedata)
+    return render(request, 'generateGraph.html', {'cachedata':json.dumps(cachedata)}) 

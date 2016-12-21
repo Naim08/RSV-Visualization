@@ -1,0 +1,340 @@
+{% extends 'layout.html' %}
+{% block title %}RSV POC{% endblock %}
+{% block body %}{% load static %}
+<div id="wrapper">
+    <div id="page-wrapper" class="gray-bg">
+       
+        <input type="hidden" id="cachedata" value="{{cachedata}}">
+        <div class="wrapper wrapper-content" style="padding-top: 0px; padding-left: 0; padding-right: 0;">
+                
+                <link href="../static/css/analysisGraphs.css" rel="stylesheet">
+                <!--        do not remove this script. it is needed to get data from server-->
+                <!--        do not remove this script. it is needed to get data from server-->
+                <div class="row" id="chart1graph">
+                            <div class="col-lg-12" id="step4">
+                                <div class="ibox">
+                                    <div class="ibox-title">
+                                        <div class="col-lg-6">
+                                            <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Application Access Frequency</h1>
+                                        </div>
+                                        <div class="col-lg-6" id="step5">
+                                            <h3 style="display: inline-block; padding-right:20px;">User: <span id="userAAF">All</span></h3>
+                                            <h3 style="display: inline-block; padding-right:20px;">Date Range: <span id="dateAAF">All</span></h3>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div id="chart1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="row" id="chart4graph">
+                            <div class="col-lg-12">
+                                <div class="ibox">
+                                    <div class="ibox-title">
+                                        <div class="col-lg-6">
+                                            <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Symptom Frequency</h1>
+                                        </div>
+                                        <div class="col-lg-6">
+                                                <h3 style="display: inline-block; padding-right:20px;">User: <span id="userSF">All</span></h3>
+                                                <h3 style="display: inline-block; padding-right:20px;">Date Range: <span id="dateSF">All</span></h3>
+                                                <h3 style="display: inline-block; padding-right:20px;">Symptom: <span id="sympSF">All</span></h3>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content" display="inline-block">
+                                        <div id="chart2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       <div class="row" id="chart2graph">
+                            <div class="col-lg-12">
+                                <div class="ibox">
+                                    <div class="ibox-title">
+                                        <div class="col-lg-6">
+                                            <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Adhoc Query Frequency</h1>
+                                        </div>
+                                        <div class="col-lg-6">
+                                                <h3 style="display: inline-block; padding-right:20px;">User: <span id="userAF">001</span></h3>
+                                                <h3 style="display: inline-block; padding-right:20px;">Date Range: <span id="dateAF">All</span></h3>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content" display="inline-block">
+                                        <div id="chart3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="chart3graph">
+                            <div class="col-lg-12">
+                                <div class="ibox">
+                                    <div class="ibox-title">
+                                        <div class="col-lg-6">
+                                            <h1 style="text-align: center; margin-top: 0px; display: inline-block;"><span class="headername"></span>Symptom Response Frequency</h1>
+                                        </div>
+                                        <div class="col-lg-6">
+                                                <h3 style="display: inline-block; padding-right:20px;">User: <span id="userSRF">All</span></h3>
+                                                <h3 style="display: inline-block; padding-right:20px;">Date Range: <span id="dateSRF">All</span></h3>
+                                                <h3 style="display: inline-block; padding-right:20px;">Symptom: <span id="sympSRF">Coughing</span></h3>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content" display="inline-block">
+                                        <div id="chart4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+     {% endblock%}
+     {% block javascript %}
+     <script type="text/javascript">
+     var charts = []
+      var data1 = document.getElementById("cachedata").value;
+      data1 = JSON.parse(data1);
+     function aaf(useFilter) {    
+    
+    var userIds = data1['Application Access Frequency']['userid'] 
+    var counts =  data1['Application Access Frequency']['count']
+    
+    var chart = c3.generate({
+        bindto: '#chart1',
+        data: {
+            //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
+            columns: [
+                counts
+            ],
+            colors: {
+                Actual: "#29AFDF",
+                Forecasted : "#ED2835"
+            },
+            type: 'bar',
+            labels: true
+        },
+        subchart: {
+            show: true
+        },
+        axis: {
+            x: {
+                type: 'categories',
+                categories: userIds,
+                tick: {
+                    multiline: false,
+                    culling: {
+                        max: 15
+                    }
+                },
+                label: {
+                    text: 'User ID',
+                    position: 'outer-center'
+                }
+            },
+            y: {
+                type: 'categories',
+                categories: counts,
+                label: {
+                    text: "Count",
+                    position: 'outer-middle'
+
+                }
+            }
+        },
+        zoom: {
+            enabled: true,
+            rescale: true
+        },
+        legend: {
+            show: false,
+        }
+    });
+    
+    charts.push(chart)
+
+}
+function sf(useFilter) {
+    
+    var when = data1['Symptom Frequency']['dates']
+    var symps = data1['Symptom Frequency']['count']
+    var chart = c3.generate({
+        bindto: '#chart2',
+        data: {
+            //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
+            columns: symps,
+            colors: {
+                Actual: "#29AFDF",
+                Forecasted : "#ED2835"
+            },
+            type: 'spline',
+//            labels: true
+        },
+        subchart: {
+            show: true
+        },
+        axis: {
+            x: {
+                type: 'categories',
+                categories: when,
+                tick: {
+                    multiline: false,
+                    culling: {
+                        max: 15
+                    }
+                },
+                label: {
+                text: 'Date',
+                position: 'outer-center'
+                }
+            },
+            y: {
+                label: {
+                    text: "Count",
+                    position: 'outer-middle'
+
+                }
+            }
+        },
+        zoom: {
+            enabled: true,
+            rescale: true
+        },
+        legend: {
+            position: 'right'
+        }
+    });
+    
+    charts.push(chart)
+
+}
+
+
+function af(useFilter) {
+    
+    
+    dates =  data1['Adhoc Query Frequency']['dates']
+    sums = data1['Adhoc Query Frequency']['sums']
+    
+    var chart = c3.generate({
+        bindto: '#chart3',
+        data: {
+            //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
+            columns: [
+                sums
+            ],
+            colors: {
+                Actual: "#29AFDF",
+                Forecasted : "#ED2835"
+            },
+            type: 'line',
+            labels: true
+        },
+        subchart: {
+            show: true
+        },
+        axis: {
+            x: {
+                type: 'categories',
+                categories: dates,
+                tick: {
+                    multiline: false,
+                    culling: {
+                        max: 15
+                    }
+                },
+                label: {
+                text: 'Date',
+                position: 'outer-center'
+                }
+            },
+            y: {
+                label: {
+                    text: "Sum",
+                    position: 'outer-middle'
+
+                }
+            }
+        },
+        grid: {
+        y: {
+            lines: [
+                {value: 6, text: 'Severity Sum  = 6'},
+                ]
+            }
+        },
+        zoom: {
+            enabled: true,
+            rescale: true
+        },
+        legend: {
+            position: 'right'
+        }
+    });
+    
+    charts.push(chart)
+    
+}
+
+function srf(useFilter) {
+    
+    var responseIDs = data1['Response Frequency']['responseIDs']
+    var counts = data1['Response Frequency']['count']
+    
+    var chart = c3.generate({
+        bindto: '#chart4',
+        data: {
+            //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
+            columns: [
+                counts
+            ],
+            colors: {
+                Actual: "#29AFDF",
+                Forecasted : "#ED2835"
+            },
+            type: 'bar',
+            labels: true
+        },
+        subchart: {
+            show: false,
+        },
+        axis: {
+            x: {
+                type: 'categories',
+                categories: responseIDs,
+                tick: {
+                    multiline: false,
+                    culling: {
+                        max: 15
+                    }
+                },
+                label: {
+                text: 'Reponse ID',
+                position: 'outer-center'
+                }
+            },
+            y: {
+                label: {
+                    text: "Count",
+                    position: 'outer-middle'
+
+                }
+            }
+        },
+        zoom: {
+            enabled: true,
+            rescale: true
+        },
+        legend: {
+            show: false,
+        }
+    });
+    
+    charts.push(chart)
+
+}
+aaf(false)
+ sf(false)
+    srf(false)
+    af(false)
+</script>
+     {% endblock%}

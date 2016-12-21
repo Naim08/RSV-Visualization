@@ -70,10 +70,10 @@ var whenUnique = when.unique()
 
 
 function doEverything() {
-    test(false)
-    test2(false)
-    test3(false)
-    test4(false)
+    aaf(false)
+    sf(false)
+    srf(false)
+    af(false)
 }
 
 
@@ -133,6 +133,11 @@ function getUniqueDatesFromFilter(filter) {
     }
     return d.unique()
 }
+
+
+
+
+
 function filter(master, whatToFilter, inputID) {
     var results = []
     
@@ -171,11 +176,20 @@ function getAppAccessData(master, useFilter) {
     if (useFilter) {
         var startDate = $('#reportrangeAAF').data('daterangepicker').startDate;
         var endDate = $('#reportrangeAAF').data('daterangepicker').endDate;
+
+        console.log(endDate)
+        
+        document.getElementById("dateAAF").innerHTML = startDate.format('M/D/YYYY') + ' - ' + endDate.format('M/D/YYYY')
+
+        $('#reportrangeAAF span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+
         
         arr = filterByDate(startDate, endDate, arr)
         
         var subjectIDSelect = document.getElementById("subjectidAAF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
+        
+        document.getElementById("userAAF").innerHTML = subjectID
         
         if (subjectID != 'All') {
             arr = filter(arr, "Subject ID", subjectID)
@@ -201,49 +215,79 @@ function getAppAccessData(master, useFilter) {
 
 function getSymptomFrequencyData(master, useFilter) {
     var arr = master
-     
+    var symptomsToGraph = getUniqueSymptomsFromFilter(arr)
+    
     if (useFilter) {      
         var startDate = $('#reportrangeSF').data('daterangepicker').startDate;
         var endDate = $('#reportrangeSF').data('daterangepicker').endDate;
         
+        $('#reportrangeSF span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+        
         arr = filterByDate(startDate, endDate, arr)
+        
+        document.getElementById("dateSF").innerHTML = startDate.format('M/D/YYYY') + ' - ' + endDate.format('M/D/YYYY')
         
         var subjectIDSelect = document.getElementById("subjectidSF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
         
+
         console.log(subjectID)
         
+        document.getElementById("userSF").innerHTML = subjectID
+        
+
         if (subjectID != 'All') {
             arr = filter(arr, "Subject ID", subjectID)
         }
         
         var symptomSelect = document.getElementById("symptomidSF")
-        var symptom = symptomSelect.options[symptomSelect.selectedIndex].text
+        var symptom = $("#symptomidSF option:selected")
+        var selected = []
+        $(symptom).each(function(index, brand){
+            selected.push($(this).val());
+        });
         
-        console.log(symptom)
+        if (selected.length == 0) {
+            document.getElementById("sympSF").innerHTML = "All"
+        }
+        else if (selected.length > 3) {
+            document.getElementById("sympSF").innerHTML = "4+ (See Data Filters Box)"
+        }
+        else{
+            document.getElementById("sympSF").innerHTML = selected.toString()
+        }
         
-        arr = filter(arr, "Question Text", symptom)
+        
+        if (selected.length != 0) {
+            symptomsToGraph = selected
+        }
+        
         console.log(arr)
         
     }
-    else {
-        arr = filter(arr, "Question Text", "NO_SYMPTOMS_LOGGED")  
-    }
+
     
     var uniqueDates = getUniqueDatesFromFilter(arr)
     
-    var counts = []
-    
-    for (var i = 0; i < uniqueDates.length; i++) {
-        var rows = filter(arr, 'When String', uniqueDates[i])
-        var count = rows.length
-        counts.push(count)
-    }
-    
     var results = []
     results[0] = uniqueDates
-    results[1] = counts
+    results[1] = []
     
+    for (var j = 0; j < symptomsToGraph.length; j++) {
+        f = filter(arr, "Question Text", symptomsToGraph[j])
+        
+        var counts = []
+
+        for (var i = 0; i < uniqueDates.length; i++) {
+            var rows = filter(f, 'When String', uniqueDates[i])
+            var count = rows.length
+            counts.push(count)
+        }
+        
+        counts.unshift(symptomsToGraph[j])
+        results[1].push(counts)
+    }
+
     return results
 }
 
@@ -279,12 +323,17 @@ function getSymptomResponseFrequencyData(master, useFilter) {
         var startDate = $('#reportrangeSRF').data('daterangepicker').startDate;
         var endDate = $('#reportrangeSRF').data('daterangepicker').endDate;
         
+        $('#reportrangeSRF span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+        
         arr = filterByDate(startDate, endDate, arr)
+        
+        document.getElementById("dateSRF").innerHTML = startDate.format('M/D/YYYY') + ' - ' + endDate.format('M/D/YYYY')
         
         var subjectIDSelect = document.getElementById("subjectidSRF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
+    
         
-        console.log(subjectID)
+        document.getElementById("userSRF").innerHTML = subjectID
         
         if (subjectID != 'All') {
             arr = filter(arr, "Subject ID", subjectID)
@@ -295,9 +344,12 @@ function getSymptomResponseFrequencyData(master, useFilter) {
         
         console.log(symptom)
         
+        document.getElementById("sympSRF").innerHTML = symptom
+        
         arr = filter(arr, "Question Text", symptom)
         console.log(arr)
         
+
     }
     else {
         arr = filter(arr, "Question Text", "COUGHING")  
@@ -325,14 +377,21 @@ function getAdhocData(master, useFilter) {
         var startDate = $('#reportrangeAF').data('daterangepicker').startDate;
         var endDate = $('#reportrangeAF').data('daterangepicker').endDate;
         
+        $('#reportrangeAF span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+        
         arr = filterByDate(startDate, endDate, arr)
+        
+        document.getElementById("dateAF").innerHTML = startDate.format('M/D/YYYY') + ' - ' + endDate.format('M/D/YYYY')
         
         var subjectIDSelect = document.getElementById("subjectidAF")
         var subjectID = subjectIDSelect.options[subjectIDSelect.selectedIndex].text
         
+        document.getElementById("userAF").innerHTML = subjectID
+        
         if (subjectID != 'All') {
             arr = filter(arr, "Subject ID", subjectID)
         }
+
     }
     else {
         arr = filter(master, "Subject ID", 001)
@@ -406,7 +465,8 @@ function changeTab(element, graphContainer) {
 }
 
 
-function test(useFilter) {    
+
+function aaf(useFilter) {    
     var appAccessData = getAppAccessData(master, useFilter)
     
     storagecache['Application Access Frequency']['userid'] = appAccessData[0]
@@ -427,7 +487,8 @@ function test(useFilter) {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
             },
-            type: 'bar'
+            type: 'bar',
+            labels: true
         },
         subchart: {
             show: true
@@ -470,26 +531,24 @@ function test(useFilter) {
 
 }
 
-function test2(useFilter) {
+function sf(useFilter) {
     var symptomFrequencyData = getSymptomFrequencyData(master, useFilter)
-    symptomFrequencyData[1].unshift("Count")
-
+    
     var when = symptomFrequencyData[0]
-    var counts = symptomFrequencyData[1]
-    storagecache['Symptom Frequency']['dates'] = when
-    storagecache['Symptom Frequency']['count'] = counts
+    var symps = symptomFrequencyData[1]
+     storagecache['Symptom Frequency']['dates'] = when
+    storagecache['Symptom Frequency']['count'] = symps
     var chart = c3.generate({
         bindto: '#chart2',
         data: {
             //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
-            columns: [
-                counts
-            ],
+            columns: symps,
             colors: {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
             },
-            type: 'spline'
+            type: 'spline',
+//            labels: true
         },
         subchart: {
             show: true
@@ -531,7 +590,7 @@ function test2(useFilter) {
 }
 
 
-function test3(useFilter) {
+function af(useFilter) {
     adHocData = getAdhocData(master, useFilter)
     
     dates = adHocData[0]
@@ -552,7 +611,8 @@ function test3(useFilter) {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
             },
-            type: 'line'
+            type: 'line',
+            labels: true
         },
         subchart: {
             show: true
@@ -600,7 +660,7 @@ function test3(useFilter) {
     
 }
 
-function test4(useFilter) {
+function srf(useFilter) {
     
     var symptomResponseFrequencyData = getSymptomResponseFrequencyData(master, useFilter)
     
@@ -621,7 +681,8 @@ function test4(useFilter) {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
             },
-            type: 'bar'
+            type: 'bar',
+            labels: true
         },
         subchart: {
             show: false,
