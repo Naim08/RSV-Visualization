@@ -5,5 +5,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'download/', views.download, name='download')
+    url(r'download/', views.download, name='download'),
+    url(r'prepareData/', views.prepareData, name='prepareData')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

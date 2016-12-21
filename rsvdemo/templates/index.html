@@ -17,7 +17,7 @@
                 <h1> RSV Watch Data Visualization</h1>
             </div>
             <div class="col-lg-3 text-right" style="padding-right: 5px">
-                <button class="btn btn-lg btn-danger" href="/download?docname={{savedDocument}}"><a style="color: white; text-align: center;" href="/rsvdemo/download"><i class="fa fa-cloud-download"></i> Download User Data</a></button>
+                <button class="btn btn-lg btn-danger" id="preparedownload"><a style="color: white; text-align: center;" meta-data=storagecache><i class="fa fa-cloud-download"></i> Download User Data</a></button>
             </div>
         </div>
         <input type="hidden" id=rsvdata value="{{rsvfile}}">
@@ -83,7 +83,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="chart1graph">
                             <div class="col-lg-12">
                                 <div class="ibox">
                                     <div class="ibox-title">
@@ -173,7 +173,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" id="chart4graph">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <div class="col-lg-6">
@@ -250,7 +250,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" id="chart2graph">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <div class="col-lg-6">
@@ -333,6 +333,7 @@
                                 </div>
                             </div>
                         </div>
+                    <div class="row" id="chart3graph">
                         <div class="col-lg-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
@@ -350,6 +351,7 @@
                                     <div id="chart4"></div>
                                 </div>
                             </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -363,6 +365,7 @@
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript">
+$('body').append('<div id="generateGraph" style="height: 2200px; background-color: whitesmoke; padding-top: 50px; padding: 40px 30px 40px;"><div id="chart1data"></div><div id="chart2data" class="" ></div><div id="chart3data"></div><div id="chart4data"></div></div>');
     var subjectid = 0
     doEverything()
 
@@ -409,11 +412,35 @@
         $('#symptomidSRF').append('<option value="'+allSymptoms[i]+'">'+allSymptoms[i]+'</option>')
     }
     $(document).ready(function () {
+      
     $('.chosen-select').chosen({width: "100%"});
     $('.chosen-select').chosen().change(function() {
        subjectid = $('.chosen-single span')[0].innerHTML
     });
+    $( "#preparedownload" ).click(function() {
+        $('#chart1graph').clone().appendTo( "#chart1data" );
+        $('#chart2graph').clone().appendTo( "#chart2data" );
+        $('#chart3graph').clone().appendTo( "#chart3data" );
+        $('#chart4graph').clone().appendTo( "#chart4data" );
         
+       function graphAsyc() {
+        html2canvas(document.getElementById("generateGraph"), {
+        onrendered: function(canvas) {
+        document.body.appendChild(canvas);
+        }
+    });
+    
+           
+    }
+        // $.getJSON('/rsvdemo/prepareData/', {'storagecache': JSON.stringify(storagecache)}, function(data){
+               
+        //    });
+   graphAsyc();
+    });
+    
+ 
+      
+       
 });
 </script>
 {% endblock %}

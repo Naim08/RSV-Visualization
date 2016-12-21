@@ -1,3 +1,8 @@
+var storagecache = {'Application Access Frequency': {'userid':[], 'count': []},
+                    'Symptom Frequency': {'dates':[], 'count': []},
+                    'Response Frequency': {'responseIDs':[], 'count': []},
+                    'Adhoc Query Frequency':{'dates':[], 'sums': []}}
+
 Array.prototype.contains = function(v) {
     for(var i = 0; i < this.length; i++) {
         if(this[i] === v) return true;
@@ -404,6 +409,8 @@ function changeTab(element, graphContainer) {
 function test(useFilter) {    
     var appAccessData = getAppAccessData(master, useFilter)
     
+    storagecache['Application Access Frequency']['userid'] = appAccessData[0]
+    storagecache['Application Access Frequency']['count'] = appAccessData[1]
     appAccessData[1].unshift("Count")
     
     var userIds = appAccessData[0]
@@ -466,10 +473,11 @@ function test(useFilter) {
 function test2(useFilter) {
     var symptomFrequencyData = getSymptomFrequencyData(master, useFilter)
     symptomFrequencyData[1].unshift("Count")
-    
+
     var when = symptomFrequencyData[0]
     var counts = symptomFrequencyData[1]
-    
+    storagecache['Symptom Frequency']['dates'] = when
+    storagecache['Symptom Frequency']['count'] = counts
     var chart = c3.generate({
         bindto: '#chart2',
         data: {
@@ -529,7 +537,8 @@ function test3(useFilter) {
     dates = adHocData[0]
     sums = adHocData[1]
     over6 = adHocData[2]
-    
+    storagecache['Adhoc Query Frequency']['dates'] = dates
+    storagecache['Adhoc Query Frequency']['sums'] = sums
     sums.unshift("Adhoc Sum")
     
     var chart = c3.generate({
@@ -597,6 +606,8 @@ function test4(useFilter) {
     
     var responseIDs = symptomResponseFrequencyData[0]
     var counts = symptomResponseFrequencyData[1]
+    storagecache['Response Frequency']['responseIDs'] = responseIDs
+    storagecache['Response Frequency']['count'] = counts
     counts.unshift("Count")
     
     var chart = c3.generate({
