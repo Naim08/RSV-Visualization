@@ -457,7 +457,6 @@ function getAdhocData(master, useFilter) {
         shortness.push(ss)
         activity.push(as)    
     }
-    console.log(adhoc)
     for (var i = 0; i < results[1].length; i++) {
         if (results[1][i] >= 6) {
             results[2].push(results[1][i])
@@ -478,7 +477,6 @@ function getAdhocData(master, useFilter) {
     activity.unshift("ACTIVITY")
     results[1].push(activity)
     
-    console.log(results)
     
     return results
 }

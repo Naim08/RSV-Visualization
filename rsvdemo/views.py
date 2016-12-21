@@ -69,7 +69,6 @@ def prepareData(request):
             cachedata = json.loads(cachedata)
             localdata = copy.copy(cachedata)
             
-            print(sys.platform)
             if sys.platform.startswith('win'):
                 driver = webdriver.PhantomJS()
             elif sys.platform.startswith('dar'):
@@ -104,7 +103,6 @@ def prepareData(request):
                 sfHeaders.append(i[0])
                 del i[0]
             for i in localdata[aqf]['sums']:
-                print i[0]
                 adHeaders.append(i[0])
                 del i[0]      
             worksheet.write_row('A1', ['userid', 'Count'], bold)
@@ -126,7 +124,6 @@ def prepareData(request):
                     worksheet2.write(row+1, colnum+1, localdata[sf]['count'][colnum][row])
 
             #worksheet 3
-            print localdata[aqf]['dates']
             worksheet3.write_column('A2', localdata[aqf]['dates'])
             for colnum in range(0, len(localdata[aqf]['sums'])):
                 for row in range(0,len(localdata[aqf]['sums'][colnum])):
@@ -173,8 +170,6 @@ def prepareData(request):
             chart4.set_x_axis({'name': 'Response ID'})
             chart4.set_y_axis({'name': 'Count'})
             chart4.set_size({'x_scale': .5*len(localdata[srf]['responseIDs']), 'y_scale': 3})
-            print ('hi')
-            print len(localdata[aqf]['dates'])
             chart3.set_title ({'name': aqf})
             chart3.set_x_axis({'name': 'Dates'})
             chart3.set_y_axis({'name': 'Sums'})
@@ -206,5 +201,4 @@ def prepareData(request):
     return HttpResponse(cachedata)  
 def generateGraph(request):
 
-    print(cachedata)
     return render(request, 'generateGraph.html', {'cachedata':json.dumps(cachedata)}) 
