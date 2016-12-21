@@ -366,7 +366,7 @@
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript">
-$('body').append('<div id="generateGraph" style="height: 2200px; background-color: whitesmoke; padding-top: 50px; padding: 40px 30px 40px; display: none;"><div id="chart1data" style="display:none;"></div><div id="chart2data" style="display:none;" class="" ></div><div id="chart3data" style="display:none;"></div><div id="chart4data" style="display:none;"></div></div>');
+
     var subjectid = 0
     doEverything()
 
@@ -421,26 +421,12 @@ $('body').append('<div id="generateGraph" style="height: 2200px; background-colo
             $( "#preparedownload" ).click(function() {
                 $("#downloadtext").remove();
                  $("#preparedownload").append('<div class="sk-spinner sk-spinner-three-bounce"><div class="sk-bounce1"></div><div class="sk-bounce2"></div><div class="sk-bounce3"></div></div>');
-                $('#generateGraph').show();
-                $('#chart1graph').clone().appendTo( "#chart1data" );
-                $('#chart2graph').clone().appendTo( "#chart2data" );
-                $('#chart3graph').clone().appendTo( "#chart3data" );
-                $('#chart4graph').clone().appendTo( "#chart4data" );
-                
-                   function graphAsyc() {
-                    html2canvas(document.getElementById("generateGraph"), {
-                    onrendered: function(canvas) {
-                    document.body.appendChild(canvas);
-                    }
-                });
-                
-                       
-                }
-                $.getJSON('/rsvdemo/prepareData/', {'storagecache': JSON.stringify(storagecache)}, function(data){
+               
+                          $.getJSON('/rsvdemo/prepareData/', {'storagecache': JSON.stringify(storagecache)}, function(data){
                        
                      });
-                 $("#finishdownload").click();
-           graphAsyc();
+                 
+           
            function test() {
                 $(".sk-spinner").remove()
                 $("#preparedownload").remove();
@@ -570,18 +556,18 @@ $('body').append('<div id="generateGraph" style="height: 2200px; background-colo
         }
 
         
-     function dlCanvas() {
-   $('canvas').attr('id', 'canvasGraph');
-   var tmp_canvas = document.getElementById('canvasGraph');
-   var btyedata = tmp_canvas.toDataURL('image/png');
-    btyedata = btyedata.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+  //    function dlCanvas() {
+  //  $('canvas').attr('id', 'canvasGraph');
+  //  var tmp_canvas = document.getElementById('canvasGraph');
+  //  var btyedata = tmp_canvas.toDataURL('image/png');
+  //   btyedata = btyedata.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
 
-  /* In addition to <a>'s "download" attribute, you can define HTTP-style headers */
-  btyedata = btyedata.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Canvas.png');
+  //  In addition to <a>'s "download" attribute, you can define HTTP-style headers 
+  // btyedata = btyedata.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Canvas.png');
 
-  this.href = btyedata;
-  $('#generateGraph').hide();
-    }
+  // this.href = btyedata;
+  // $('#generateGraph').hide();
+  //   }
     // document.getElementById("dl").addEventListener('click', dlCanvas, false);
     
  
