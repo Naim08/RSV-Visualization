@@ -81,7 +81,7 @@ def prepareData(request):
             
             driver.set_window_size(1500, 1200)
             driver.get('/generateGraph/')
-            driver.save_screenshot(os.getcwd() + '/media/rsvfiles/website.png')
+            driver.save_screenshot('/generateGraph/')
             driver.quit()
             
             mediapath = os.getcwd() + '/media/rsvfiles/filtersheet.xlsx'
