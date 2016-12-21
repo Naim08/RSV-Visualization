@@ -53,7 +53,7 @@ def index(request):
     return render(request, 'index.html', {'rsvfile':json.dumps(df)})
 
 def download(request):
-    path = os.getcwd() + '/rsvfiles.zip'
+    path = os.getcwd() + '/zipfile.tar.gz'
     print path
     #this should live elsewhere, definitely
     if os.path.exists(path):
@@ -61,7 +61,7 @@ def download(request):
         zip_file = open(path, 'r')
 
         response = HttpResponse(zip_file,content_type='application/force-download')
-        response['Content-Disposition'] = 'attachment; filename='+'rsvfiles.zip'
+        response['Content-Disposition'] = 'attachment; filename='+'zipfile.tar.gz'
         return response    
 def prepareData(request):
     global cachedata
