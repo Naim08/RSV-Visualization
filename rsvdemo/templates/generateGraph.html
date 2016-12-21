@@ -215,13 +215,12 @@ function af(useFilter) {
     dates =  data1['Adhoc Query Frequency']['dates']
     sums = data1['Adhoc Query Frequency']['sums']
     
+     
     var chart = c3.generate({
         bindto: '#chart3',
         data: {
             //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
-            columns: [
-                sums
-            ],
+            columns: sums,
             colors: {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
@@ -249,7 +248,7 @@ function af(useFilter) {
             },
             y: {
                 label: {
-                    text: "Sum",
+                    text: "Severity Total",
                     position: 'outer-middle'
 
                 }
@@ -258,7 +257,8 @@ function af(useFilter) {
         grid: {
         y: {
             lines: [
-                {value: 6, text: 'Severity Sum  = 6'},
+                {value: 6, text: 'METHOD 1:   Severity Sum  = 6'},
+                {value: 3, text: 'METHOD 2:   Severity = 3'},
                 ]
             }
         },
@@ -267,7 +267,8 @@ function af(useFilter) {
             rescale: true
         },
         legend: {
-            position: 'right'
+//            show: false,
+            position: 'right',
         }
     });
     
@@ -278,6 +279,9 @@ function af(useFilter) {
 function srf(useFilter) {
     
     var responseIDs = data1['Response Frequency']['responseIDs']
+     for (var i = 0; i < responseIDs.length; i++) {
+        responseIDs[i] -= 1
+        }
     var counts = data1['Response Frequency']['count']
     
     var chart = c3.generate({

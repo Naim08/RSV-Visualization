@@ -408,16 +408,26 @@ function getAdhocData(master, useFilter) {
     }
     
     var applicableSymptoms = ["FEEDING_ISSUES", "DEHYDRATION", "DIFFICULTY_BREATHING", "RUNNY_NOSE", "COUGHING", "RESPIRATORY_NOISE"]
-    
+        
     var uniqueDays = getUniqueDatesFromFilter(arr)
     
     results = []
     results[0] = []
     results[1] = []
     results[2] = []
+    adhoc = []
+    dehydration = []
+    respNoise = []
+    shortness = []
+    activity = []
     
     for (var i = 0; i < uniqueDays.length; i++) {
-        s = 0
+        var s = 0
+        var ds = 0
+        var rs = 0
+        var ss = 0
+        var as = 0
+        
         
         rows = filter(arr, "When String", uniqueDays[i])
         
@@ -425,12 +435,28 @@ function getAdhocData(master, useFilter) {
             if (applicableSymptoms.contains(rows[j]['Question Text'])) {
                 s += rows[j]['Response ID'] - 1
             }
+            
+            if (rows[j]['Question Text'] == 'DEHYDRATION') {
+                ds += rows[j]['Response ID'] - 1
+            }
+            else if (rows[j]['Question Text'] == 'RESPIRATORY_NOISE') {
+                rs += rows[j]['Response ID'] - 1
+            }
+            else if (rows[j]['Question Text'] == 'SHORTNESS_OF_BREATH') {
+                ss += rows[j]['Response ID'] - 1
+            }
+            else if (rows[j]['Question Text'] == 'ACTIVITY') {
+                as += rows[j]['Response ID'] - 1
+            }
         }
         
         results[0].push(uniqueDays[i])
-        results[1].push(s)
+        adhoc.push(s)
+        dehydration.push(ds)
+        respNoise.push(rs)
+        shortness.push(ss)
+        activity.push(as)    
     }
-    
     for (var i = 0; i < results[1].length; i++) {
         if (results[1][i] >= 6) {
             results[2].push(results[1][i])
@@ -439,6 +465,18 @@ function getAdhocData(master, useFilter) {
             results[2].push(NaN)
         }
     }
+    
+    adhoc.unshift("Adhoc Sum")
+    results[1].push(adhoc)
+    dehydration.unshift("DEHYDRATION")
+    results[1].push(dehydration)
+    respNoise.unshift("RESPIRATORY_NOISE")
+    results[1].push(respNoise)
+    shortness.unshift("SHORTNESS_OF_BREATH")
+    results[1].push(shortness)
+    activity.unshift("ACTIVITY")
+    results[1].push(activity)
+    
     
     return results
 }
@@ -608,15 +646,12 @@ function af(useFilter) {
     over6 = adHocData[2]
     storagecache['Adhoc Query Frequency']['dates'] = dates
     storagecache['Adhoc Query Frequency']['sums'] = sums
-    sums.unshift("Adhoc Sum")
     
     var chart = c3.generate({
         bindto: '#chart3',
         data: {
             //make sure that graphableForecasted is plotted first so that it doesnt look like there is an extra forecasted point that is really the last actual value point
-            columns: [
-                sums
-            ],
+            columns: sums,
             colors: {
                 Actual: "#29AFDF",
                 Forecasted : "#ED2835"
@@ -677,6 +712,11 @@ function srf(useFilter) {
     var symptomResponseFrequencyData = getSymptomResponseFrequencyData(master, useFilter)
     
     var responseIDs = symptomResponseFrequencyData[0]
+    
+    for (var i = 0; i < responseIDs.length; i++) {
+        responseIDs[i] -= 1
+    }
+    
     var counts = symptomResponseFrequencyData[1]
     storagecache['Response Frequency']['responseIDs'] = responseIDs
     storagecache['Response Frequency']['count'] = counts

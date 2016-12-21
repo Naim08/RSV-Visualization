@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 [INFO  - 2016-12-21T18:30:45.225Z] GhostDriver - Main - running on port 51569
 [INFO  - 2016-12-21T18:30:46.263Z] Session [96ac0610-c7ab-11e6-831e-6f198b451080] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
 [INFO  - 2016-12-21T18:30:46.263Z] Session [96ac0610-c7ab-11e6-831e-6f198b451080] - page.customHeaders:  - {}
 [INFO  - 2016-12-21T18:30:46.263Z] Session [96ac0610-c7ab-11e6-831e-6f198b451080] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"windows-10-32bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
 [INFO  - 2016-12-21T18:30:46.263Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 96ac0610-c7ab-11e6-831e-6f198b451080
+=======
+[INFO  - 2016-12-21T19:47:53.149Z] GhostDriver - Main - running on port 49221
+[INFO  - 2016-12-21T19:47:53.761Z] Session [5ce0a3e0-c7b6-11e6-b319-df84f6d9f4fe] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2016-12-21T19:47:53.761Z] Session [5ce0a3e0-c7b6-11e6-b319-df84f6d9f4fe] - page.customHeaders:  - {}
+[INFO  - 2016-12-21T19:47:53.761Z] Session [5ce0a3e0-c7b6-11e6-b319-df84f6d9f4fe] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-10.11 (El Capitan)-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2016-12-21T19:47:53.761Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 5ce0a3e0-c7b6-11e6-b319-df84f6d9f4fe
+>>>>>>> 8e221d5663d6687bcd455d5bc7b567ea2dff18ca
