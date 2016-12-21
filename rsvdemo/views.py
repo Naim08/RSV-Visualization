@@ -80,7 +80,7 @@ def prepareData(request):
                 
             
             driver.set_window_size(1500, 1200)
-            driver.get('http://localhost:8000/rsvdemo/generateGraph/')
+            driver.get('/generateGraph/')
             driver.save_screenshot(os.getcwd() + '/media/rsvfiles/website.png')
             driver.quit()
             
